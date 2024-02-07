@@ -5,10 +5,14 @@ plugins {
 android {
     namespace 'com.example.szakdoghozkell'
     compileSdk 34
+    packagingOptions {
+        exclude 'META-INF/*'
+        exclude 'versionchanges.txt'
+    }
 
     defaultConfig {
         applicationId "com.example.szakdoghozkell"
-        minSdk 21
+        minSdk 26
         targetSdk 34
         versionCode 1
         versionName "1.0"
@@ -37,7 +41,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.11.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.github.dhaval2404:imagepicker:2.1'
-    compile 'com.rmtheis:tess-two:6.3.0'
+    implementation 'net.sourceforge.tess4j:tess4j:5.0.0'
     implementation project(path: ':sdk')
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

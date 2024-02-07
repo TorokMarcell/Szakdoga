@@ -23,14 +23,15 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
                 String email = binding.signupEmail.getText().toString();
                 String password = binding.signupPassword.getText().toString();
+                String studentid = binding.signupStudentId.getText().toString();
                 String confirmPassword = binding.signupConfirm.getText().toString();
-                if(email.equals("")||password.equals("")||confirmPassword.equals(""))
+                if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals("")||studentid.equals("\\d"))
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
                 else{
                     if(password.equals(confirmPassword)){
                         Boolean checkUserEmail = databaseHelper.checkEmail(email);
                         if(!checkUserEmail){
-                            Boolean insert = databaseHelper.insertData(email, password);
+                            Boolean insert = databaseHelper.insertData(email, password,studentid);
                             if(insert){
                                 Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),LgoinActivity.class);
