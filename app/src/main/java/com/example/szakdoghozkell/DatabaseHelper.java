@@ -54,9 +54,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public Boolean checkStudentID(String email, String password,String studentid){
+    public Boolean checkStudentID(String email,String studentid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and password = ? and studentid = ?", new String[]{email, password,studentid});
+        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and studentid = ?", new String[]{email,studentid});
         if (cursor.getCount() > 0) {
             return true;
         }else {

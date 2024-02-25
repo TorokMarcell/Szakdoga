@@ -12,6 +12,30 @@ import com.example.szakdoghozkell.databinding.ActivitySignupBinding;
 public class SignupActivity extends AppCompatActivity {
     ActivitySignupBinding binding;
     DatabaseHelper databaseHelper;
+
+//    protected boolean Checking(String email,String password,String studentid,String confirmPassword){
+//       email = binding.signupEmail.getText().toString();
+//         password = binding.signupPassword.getText().toString();
+//        studentid = binding.signupStudentId.getText().toString();
+//        confirmPassword = binding.signupConfirm.getText().toString();
+//        if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals(""))
+//            Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+//        if(!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
+//            Toast.makeText(SignupActivity.this, "ROSZEMAIL", Toast.LENGTH_SHORT).show();
+//
+//        }
+//        if((!studentid.matches("^[0-9]*$"))){
+//            Toast.makeText(SignupActivity.this, "NEMSZAM", Toast.LENGTH_SHORT).show();
+//
+//        }
+//        if(!(studentid.length() == 6))
+//        {
+//            Toast.makeText(SignupActivity.this, "KEVES", Toast.LENGTH_SHORT).show();
+//
+//
+//        }
+//        return true;
+//    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,14 +49,30 @@ public class SignupActivity extends AppCompatActivity {
                 String password = binding.signupPassword.getText().toString();
                 String studentid = binding.signupStudentId.getText().toString();
                 String confirmPassword = binding.signupConfirm.getText().toString();
-                if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals("")||studentid.equals("\\d"))
+                Boolean checking = true;
+                if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals(""))
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                if(!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
+                    Toast.makeText(SignupActivity.this, "ROSZEMAIL", Toast.LENGTH_SHORT).show();
+                    checking = false;
+                }
+                if((!studentid.matches("^[0-9]*$"))){
+                    Toast.makeText(SignupActivity.this, "NEMSZAM", Toast.LENGTH_SHORT).show();
+                    checking = false;
+                }
+                if(!(studentid.length() == 6))
+                {
+                    Toast.makeText(SignupActivity.this, "KEVES", Toast.LENGTH_SHORT).show();
+                    checking = false;
+
+                }
                 else{
                     if(password.equals(confirmPassword)){
                         Boolean checkUserEmail = databaseHelper.checkEmail(email);
-                        if(!checkUserEmail){
+                        Boolean checkUserId = databaseHelper.checkStudentID(email,studentid);
+                        if(!checkUserEmail&&!checkUserId){
                             Boolean insert = databaseHelper.insertData(email, password,studentid);
-                            if(insert){
+                            if(insert&& checking){
                                 Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),LgoinActivity.class);
                                 startActivity(intent);
