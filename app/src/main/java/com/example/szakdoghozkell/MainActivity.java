@@ -60,18 +60,6 @@ public class MainActivity extends AppCompatActivity {
         imageView.setImageURI(uri);
         imageView.setDrawingCacheEnabled(true);
         imageView.buildDrawingCache(true);
-        Bitmap bitmap = Bitmap.createBitmap(imageView.getDrawingCache());
-        imageView.setDrawingCacheEnabled(false);
-        ITesseract tesseract = new Tesseract();
-//        try {
-//            // Tesseract segítségével szövegolvasás
-//            String text = tesseract.doOCR(bitmap);
-//
-//            // Eredmény kiírása
-//            System.out.println("Felismert szöveg:");
-//            System.out.println(text);
-//        } catch (Exception e) {
-//            System.err.println(e.getMessage());
-//        }
+
     }
 }
