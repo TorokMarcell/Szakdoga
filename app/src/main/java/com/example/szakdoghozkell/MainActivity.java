@@ -23,8 +23,17 @@ import java.nio.ByteBuffer;
 
 import android.graphics.*;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.szakdoghozkell.ml.ModelUnquant;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.mlkit.vision.common.InputImage;
+import com.google.mlkit.vision.text.Text;
+import com.google.mlkit.vision.text.TextRecognition;
+import com.google.mlkit.vision.text.TextRecognizer;
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.image.TensorImage;
@@ -40,11 +49,14 @@ public class MainActivity extends AppCompatActivity {
     Button predictButton;
     ImageButton imageButton;
 
+    Button textRecognitionButton;
     TextView textView;
 
     String result;
     ImageButton captureButton;
     Bitmap bitmap;
+
+    TextRecognizer textRecognizer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         predictButton = findViewById(R.id.predictbutton);
         captureButton = findViewById(R.id.captureButton);
         textView = findViewById(R.id.textView);
+        textRecognitionButton = findViewById(R.id.textRecogniton);
+        textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,6 +131,36 @@ public class MainActivity extends AppCompatActivity {
                     // TODO Handle the exception
                 }
 
+            }
+        });
+        textRecognitionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(bitmap == null){
+                    Toast.makeText(MainActivity.this,"ASD",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    recognizeTextFromImage();
+                }
+            }
+        });
+    }
+
+    private void recognizeTextFromImage() {
+
+        InputImage inputImage = InputImage.fromBitmap(bitmap, 0);
+        Task<Text> textResult = textRecognizer.process(inputImage).addOnSuccessListener(new OnSuccessListener<Text>() {
+            @Override
+            public void onSuccess(Text text) {
+
+                String recognizedText = text.getText();
+                textView.setText(recognizedText);
+            }
+        })
+             .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(MainActivity.this, "ASD", Toast.LENGTH_SHORT).show();
             }
         });
     }
