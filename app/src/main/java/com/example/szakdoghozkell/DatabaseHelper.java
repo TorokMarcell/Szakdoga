@@ -17,18 +17,19 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        MyDatabase.execSQL("create Table users(email TEXT primary key, password TEXT,studentid TEXT)");
+        MyDatabase.execSQL("create Table users(email TEXT primary key, password TEXT,studentid TEXT,validated TEXT)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase MyDB, int i, int i1) {
         MyDB.execSQL("drop Table if exists users");
     }
-    public Boolean insertData(String email, String password, String studentid){
+    public Boolean insertData(String email, String password, String studentid,String validated){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("email", email);
         contentValues.put("password", password);
         contentValues.put("studentid", studentid);
+        contentValues.put("validated",validated);
         long result = MyDatabase.insert("users", null, contentValues);
         if (result == -1) {
             return false;
@@ -54,13 +55,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public Boolean checkStudentID(String email,String studentid){
+    public Boolean checkStudentID(String studentid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and studentid = ?", new String[]{email,studentid});
+        Cursor cursor = MyDatabase.rawQuery("Select * from users where studentid = ?", new String[]{studentid});
         if (cursor.getCount() > 0) {
             return true;
         }else {
             return false;
         }
+    }
+    public String getStudentID(String studentid){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from users where studentid = ?", new String[]{studentid});
+        return studentid;
     }
 }

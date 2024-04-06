@@ -13,6 +13,8 @@ public class SignupActivity extends AppCompatActivity {
     ActivitySignupBinding binding;
     DatabaseHelper databaseHelper;
 
+
+
 //    protected boolean Checking(String email,String password,String studentid,String confirmPassword){
 //       email = binding.signupEmail.getText().toString();
 //         password = binding.signupPassword.getText().toString();
@@ -49,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
                 String password = binding.signupPassword.getText().toString();
                 String studentid = binding.signupStudentId.getText().toString();
                 String confirmPassword = binding.signupConfirm.getText().toString();
+                String validated = "N";
                 Boolean checking = true;
                 if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals(""))
                     Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
@@ -60,7 +63,7 @@ public class SignupActivity extends AppCompatActivity {
                     Toast.makeText(SignupActivity.this, "NEMSZAM", Toast.LENGTH_SHORT).show();
                     checking = false;
                 }
-                if(!(studentid.length() == 6))
+                if(!(studentid.length() == 10))
                 {
                     Toast.makeText(SignupActivity.this, "KEVES", Toast.LENGTH_SHORT).show();
                     checking = false;
@@ -69,9 +72,9 @@ public class SignupActivity extends AppCompatActivity {
                 else{
                     if(password.equals(confirmPassword)){
                         Boolean checkUserEmail = databaseHelper.checkEmail(email);
-                        Boolean checkUserId = databaseHelper.checkStudentID(email,studentid);
+                        Boolean checkUserId = databaseHelper.checkStudentID(studentid);
                         if(!checkUserEmail&&!checkUserId){
-                            Boolean insert = databaseHelper.insertData(email, password,studentid);
+                            Boolean insert = databaseHelper.insertData(email, password,studentid,validated);
                             if(insert&& checking){
                                 Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(),LgoinActivity.class);

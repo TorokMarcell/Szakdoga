@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
     Bitmap bitmap;
 
     TextRecognizer textRecognizer;
+    DatabaseHelper databaseHelper;
+    String resultid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -86,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
         textView = findViewById(R.id.textView);
         textRecognitionButton = findViewById(R.id.textRecogniton);
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
+        databaseHelper= new DatabaseHelper(this);
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -124,8 +127,18 @@ public class MainActivity extends AppCompatActivity {
 
                     TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-                    textView.setText(labels[getMax(outputFeature0.getFloatArray())]+" ");
+                    float[] confidences = outputFeature0.getFloatArray();
+                    int maxpos =0;
+                    float maxconfidence =0;
+                    for (int i = 0; i < confidences.length; i++) {
+                        if(confidences[i]<maxconfidence){
+                            maxconfidence = confidences[i];
+                            maxpos = i;
+                        }
+                    }
 
+                    textView.setText(labels[maxpos]);
+                    result = (String) textView.getText();
                     model.close();
                 } catch (IOException e) {
                     // TODO Handle the exception
@@ -154,7 +167,21 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(Text text) {
 
                 String recognizedText = text.getText();
-                textView.setText(recognizedText);
+                String[] asd =recognizedText.split("\n");
+                for (int i = 0; i < asd.length; i++) {
+                    if (asd[i].matches("KÁRTYASZÁM")){
+                        resultid =asd[i+1];
+                    }
+                }
+                if (databaseHelper.checkStudentID(resultid)&&result.equals("0 Diák")){
+                    Toast.makeText(MainActivity.this, "NAONJÓ", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Toast.makeText(MainActivity.this, "NAONEMjó", Toast.LENGTH_SHORT).show();
+                }
+//                databaseHelper.checkStudentID();
+//                textView.setText(recognizedText);
+
             }
         })
              .addOnFailureListener(new OnFailureListener() {
@@ -185,15 +212,6 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-    int getMax(float[]floats){
-        int max=0;
-        for (int i = 0; i < floats.length; i++) {
-            if (floats[i] > floats[max]){
-                max=i;
-            }
-        }
-        return max;
-    }
     void getPermission(){
         if(checkSelfPermission(Manifest.permission.CAMERA)!= PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(MainActivity.this,new String[]{Manifest.permission.CAMERA},2);
