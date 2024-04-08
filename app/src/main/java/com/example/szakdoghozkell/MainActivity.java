@@ -59,6 +59,8 @@ public class MainActivity extends AppCompatActivity {
     TextRecognizer textRecognizer;
     DatabaseHelper databaseHelper;
     String resultid;
+    String resultFirstname;
+    String resultLastname;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,12 +171,21 @@ public class MainActivity extends AppCompatActivity {
                 String recognizedText = text.getText();
                 String[] asd =recognizedText.split("\n");
                 for (int i = 0; i < asd.length; i++) {
-                    if (asd[i].matches("KÁRTYASZÁM")){
+                    if (asd[i].matches("KÁRTYASZÁM")||asd[i].matches("KARTYASZÁM")){
                         resultid =asd[i+1];
+                        while (resultid.length() !=10){
+                            resultid = asd[i+1];
+                        }
                     }
+                    if (asd[i].matches("SURNAME AND GIVEN AME")||asd[i].matches("SURNAME AND GIVEN NAME")){
+                        resultFirstname = asd[i+2];
+                        resultLastname = asd[i+3];
+                    }
+
                 }
                 if (databaseHelper.checkStudentID(resultid)&&result.equals("0 Diák")){
-                    Toast.makeText(MainActivity.this, "NAONJÓ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Sikeres volt a Verifikáció.", Toast.LENGTH_SHORT).show();
+                    databaseHelper.updatevalidated(resultid);
                 }
                 else {
                     Toast.makeText(MainActivity.this, "NAONEMjó", Toast.LENGTH_SHORT).show();
