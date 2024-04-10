@@ -152,10 +152,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
                     textView.setText(labels[maxpos]);
-                    result = (String) textView.getText();
+                    //result = (String) textView.getText();
                     model.close();
                 } catch (IOException e) {
-                    Toast.makeText(MainActivity.this, "NAONEMjó", Toast.LENGTH_SHORT).show();
+                    throw new RuntimeException(e);
                 }
 
             }

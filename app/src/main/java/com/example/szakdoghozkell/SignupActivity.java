@@ -79,25 +79,29 @@ protected void onCreate(Bundle savedInstanceState) {
                 Toast.makeText(SignupActivity.this, "SZAM", Toast.LENGTH_SHORT).show();
                 checking = false;
             }
-            else{
-                if(password.equals(confirmPassword)){
-                    Boolean checkUserEmail = databaseHelper.checkEmail(email);
-                    Boolean checkUserId = databaseHelper.checkStudentID(studentid);
-                    if(!checkUserEmail&&!checkUserId){
-                        Boolean insert = databaseHelper.insertData(email, password,studentid,validated,firstname,lastname);
-                        if(insert&& checking){
-                            Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(),LgoinActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
+            else {
+                if (checking) {
+                    if (password.equals(confirmPassword)) {
+                        Boolean checkUserEmail = databaseHelper.checkEmail(email);
+                        Boolean checkUserId = databaseHelper.checkStudentID(studentid);
+                        if (!checkUserEmail && !checkUserId) {
+                            Boolean insert = databaseHelper.insertData(email, password, studentid, validated, firstname, lastname);
+                            if (insert) {
+                                Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
                         }
+                    } else {
+                        Toast.makeText(SignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
                     }
-                    else{
-                        Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
-                    }
-                }else{
-                    Toast.makeText(SignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    Toast.makeText(SignupActivity.this, "Signup Failed! try again", Toast.LENGTH_SHORT).show();
                 }
             }
         }
