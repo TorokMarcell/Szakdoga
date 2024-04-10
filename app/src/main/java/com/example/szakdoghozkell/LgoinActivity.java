@@ -29,13 +29,21 @@ public class LgoinActivity extends AppCompatActivity {
                 else{
                     Boolean checkCredentials = databaseHelper.checkPassword(email, password);
                     if(checkCredentials){
-                        Toast.makeText(LgoinActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
-                        Intent intent  = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                        if(databaseHelper.checkValidated(email)){
+                            Toast.makeText(LgoinActivity.this, "Már készen vagy a Verifikációval.", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LgoinActivity.this, LgoinActivity.class);
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(LgoinActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                            startActivity(intent);
+                        }
                     }else{
                         Toast.makeText(LgoinActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
                     }
                 }
+
             }
         });
        binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {;

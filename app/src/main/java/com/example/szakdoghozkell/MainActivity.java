@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
     Button predictButton;
     ImageButton imageButton;
 
+    Button exitButton;
+
     Button textRecognitionButton;
     TextView textView;
 
@@ -91,6 +93,16 @@ public class MainActivity extends AppCompatActivity {
         textRecognitionButton = findViewById(R.id.textRecogniton);
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         databaseHelper= new DatabaseHelper(this);
+        exitButton = findViewById(R.id.exitbutton);
+
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, LgoinActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     result = (String) textView.getText();
                     model.close();
                 } catch (IOException e) {
-                    // TODO Handle the exception
+                    Toast.makeText(MainActivity.this, "NAONEMjó", Toast.LENGTH_SHORT).show();
                 }
 
             }

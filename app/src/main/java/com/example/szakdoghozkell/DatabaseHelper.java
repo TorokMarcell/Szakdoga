@@ -75,6 +75,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public Boolean checkValidated(String email) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and validated = 'I'", new String[]{email});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public Boolean updatevalidated(String studentid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
