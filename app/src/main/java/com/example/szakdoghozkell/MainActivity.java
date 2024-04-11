@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button exitButton;
 
+    Button editButton;
+
     Button textRecognitionButton;
     TextView textView;
 
@@ -67,11 +69,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-
         getPermission();
-
         String[] labels = new String[1002];
         int cnt =0;
         try {
@@ -94,6 +92,15 @@ public class MainActivity extends AppCompatActivity {
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         databaseHelper= new DatabaseHelper(this);
         exitButton = findViewById(R.id.exitbutton);
+        editButton= findViewById(R.id.editbutton);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                startActivity(intent);
+            }
+        });
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,45 +133,48 @@ public class MainActivity extends AppCompatActivity {
         predictButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (bitmap == null) {
+                    Toast.makeText(MainActivity.this, "Kérlek adj meg egy képet", Toast.LENGTH_SHORT).show();
+                } else {
+                    try {
+                        ModelUnquant model = ModelUnquant.newInstance(MainActivity.this);
 
-                try {
-                    ModelUnquant model = ModelUnquant.newInstance(MainActivity.this);
+                        TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
+                        Bitmap input = Bitmap.createScaledBitmap(bitmap, 224, 224, true);
+                        TensorImage image = new TensorImage(DataType.FLOAT32);
+                        image.load(input);
+                        ByteBuffer byteBuffer = image.getBuffer();
+                        inputFeature0.loadBuffer(byteBuffer);
 
-                    TensorBuffer inputFeature0 = TensorBuffer.createFixedSize(new int[]{1, 224, 224, 3}, DataType.FLOAT32);
-                    Bitmap input=Bitmap.createScaledBitmap(bitmap,224,224,true);
-                    TensorImage image=new TensorImage(DataType.FLOAT32);
-                    image.load(input);
-                    ByteBuffer byteBuffer=image.getBuffer();
-                    inputFeature0.loadBuffer(byteBuffer);
+                        ModelUnquant.Outputs outputs = model.process(inputFeature0);
 
-                    ModelUnquant.Outputs outputs = model.process(inputFeature0);
+                        TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
 
-                    TensorBuffer outputFeature0 = outputs.getOutputFeature0AsTensorBuffer();
-
-                    float[] confidences = outputFeature0.getFloatArray();
-                    int maxpos =0;
-                    float maxconfidence =0;
-                    for (int i = 0; i < confidences.length; i++) {
-                        if(confidences[i]<maxconfidence){
-                            maxconfidence = confidences[i];
-                            maxpos = i;
+                        float[] confidences = outputFeature0.getFloatArray();
+                        int maxpos = 0;
+                        float maxconfidence = 0;
+                        for (int i = 0; i < confidences.length; i++) {
+                            if (confidences[i] < maxconfidence) {
+                                maxconfidence = confidences[i];
+                                maxpos = i;
+                            }
                         }
+
+                        textView.setText(labels[maxpos]);
+                        result = (String) textView.getText();
+                        model.close();
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
 
-                    textView.setText(labels[maxpos]);
-                    //result = (String) textView.getText();
-                    model.close();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
                 }
-
             }
         });
         textRecognitionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(bitmap == null){
-                    Toast.makeText(MainActivity.this,"ASD",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this,"Kérlek adj meg egy képet",Toast.LENGTH_SHORT).show();
                 }
                 else {
                     recognizeTextFromImage();
@@ -186,21 +196,24 @@ public class MainActivity extends AppCompatActivity {
                     if (asd[i].matches("KÁRTYASZÁM")||asd[i].matches("KARTYASZÁM")){
                         resultid =asd[i+1];
                         while (resultid.length() !=10){
-                            resultid = asd[i+1];
+                            resultid = resultid+asd[i+2];
                         }
                     }
                     if (asd[i].matches("SURNAME AND GIVEN AME")||asd[i].matches("SURNAME AND GIVEN NAME")){
                         resultFirstname = asd[i+2];
                         resultLastname = asd[i+3];
+                        resultFirstname=replaceAccents(resultFirstname);
+                        resultLastname=replaceAccents(resultLastname);
                     }
 
                 }
-                if (databaseHelper.checkStudentID(resultid)&&result.equals("0 Diák")){
+
+                if (databaseHelper.checkFirstAndLastNameString(resultid,resultFirstname,resultLastname)&&result.equals("0 Diák")){
                     Toast.makeText(MainActivity.this, "Sikeres volt a Verifikáció.", Toast.LENGTH_SHORT).show();
                     databaseHelper.updatevalidated(resultid);
                 }
                 else {
-                    Toast.makeText(MainActivity.this, "NAONEMjó", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Nem sikerült a verifikáció kérlek probáld meg újra egy jobb minőségű képpel", Toast.LENGTH_SHORT).show();
                 }
 //                databaseHelper.checkStudentID();
 //                textView.setText(recognizedText);
@@ -251,5 +264,36 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    public String replaceAccents(String results){
+        if(results == null){
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < results.length(); i++) {
+            sb.append(replaceAccent(results.charAt(i)));
+        }
+        return sb.toString();
+    }
+    public char replaceAccent(char letter){
+        switch (letter){
+            case 'Á':
+                return 'A';
+            case 'É':
+                return  'E';
+            case 'Ó':
+            case 'Ő':
+            case 'Ö':
+                return 'O';
+            case 'Ú':
+            case 'Ű':
+            case 'Ü':
+                return 'U';
+            case 'Í':
+                return 'I';
+            default: return letter;
+
+        }
     }
 }

@@ -25,7 +25,7 @@ public class LgoinActivity extends AppCompatActivity {
                 String email = binding.loginEmail.getText().toString();
                 String password = binding.loginPassword.getText().toString();
                 if(email.equals("")||password.equals(""))
-                    Toast.makeText(LgoinActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LgoinActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
                 else{
                     Boolean checkCredentials = databaseHelper.checkPassword(email, password);
                     if(checkCredentials){
@@ -35,12 +35,12 @@ public class LgoinActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                         else {
-                            Toast.makeText(LgoinActivity.this, "Login Successfully!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LgoinActivity.this, "Sikeres Bejelentkezés!", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
                         }
                     }else{
-                        Toast.makeText(LgoinActivity.this, "Invalid Credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LgoinActivity.this, "Rosz adatokat adtál meg", Toast.LENGTH_SHORT).show();
                     }
                 }
 

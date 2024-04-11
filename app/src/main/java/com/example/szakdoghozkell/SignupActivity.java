@@ -14,30 +14,6 @@ public class SignupActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
 
 
-
-//    protected boolean Checking(String email,String password,String studentid,String confirmPassword){
-//       email = binding.signupEmail.getText().toString();
-//         password = binding.signupPassword.getText().toString();
-//        studentid = binding.signupStudentId.getText().toString();
-//        confirmPassword = binding.signupConfirm.getText().toString();
-//        if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals(""))
-//            Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
-//        if(!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
-//            Toast.makeText(SignupActivity.this, "ROSZEMAIL", Toast.LENGTH_SHORT).show();
-//
-//        }
-//        if((!studentid.matches("^[0-9]*$"))){
-//            Toast.makeText(SignupActivity.this, "NEMSZAM", Toast.LENGTH_SHORT).show();
-//
-//        }
-//        if(!(studentid.length() == 6))
-//        {
-//            Toast.makeText(SignupActivity.this, "KEVES", Toast.LENGTH_SHORT).show();
-//
-//
-//        }
-//        return true;
-//    }
 @Override
 protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -56,27 +32,27 @@ protected void onCreate(Bundle savedInstanceState) {
             String validated = "N";
             Boolean checking = true;
             if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals("")||firstname.equals("")||lastname.equals(""))
-                Toast.makeText(SignupActivity.this, "All fields are mandatory", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
             if(!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
-                Toast.makeText(SignupActivity.this, "ROSZEMAIL", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Nem helyes formátumban adtad meg az emailed", Toast.LENGTH_SHORT).show();
                 checking = false;
             }
             if((!studentid.matches("^[0-9]*$"))){
-                Toast.makeText(SignupActivity.this, "NEMSZAM", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "Kérlek ide csak számot adj be", Toast.LENGTH_SHORT).show();
                 checking = false;
             }
             if(!(studentid.length() == 10))
             {
-                Toast.makeText(SignupActivity.this, "KEVES", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, "10 karakterből kell áljon az azonosítód", Toast.LENGTH_SHORT).show();
                 checking = false;
 
             }
-            if (firstname.matches("^[0-9]*$")){
-                Toast.makeText(SignupActivity.this, "SZAM", Toast.LENGTH_SHORT).show();
+            if (firstname.matches("^[^a-zA-Z]*$")){
+                Toast.makeText(SignupActivity.this, "Kérlek ide csak betűt írj", Toast.LENGTH_SHORT).show();
                 checking = false;
             }
-            if (lastname.matches("^[0-9]*$")){
-                Toast.makeText(SignupActivity.this, "SZAM", Toast.LENGTH_SHORT).show();
+            if (lastname.matches("^[^a-z-A-Z]*$")){
+                Toast.makeText(SignupActivity.this, "Kérlek ide csak betűt írj", Toast.LENGTH_SHORT).show();
                 checking = false;
             }
             else {
@@ -84,28 +60,31 @@ protected void onCreate(Bundle savedInstanceState) {
                     if (password.equals(confirmPassword)) {
                         Boolean checkUserEmail = databaseHelper.checkEmail(email);
                         Boolean checkUserId = databaseHelper.checkStudentID(studentid);
+                        firstname =replaceAccents(firstname.toUpperCase());
+                        lastname = replaceAccents(lastname.toUpperCase());
                         if (!checkUserEmail && !checkUserId) {
                             Boolean insert = databaseHelper.insertData(email, password, studentid, validated, firstname, lastname);
                             if (insert) {
-                                Toast.makeText(SignupActivity.this, "Signup Successfully!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignupActivity.this, "Sikeres Regisztráció", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);
                                 startActivity(intent);
                             } else {
-                                Toast.makeText(SignupActivity.this, "Signup Failed!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(SignupActivity.this, "Sikertelen Regisztráció", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(SignupActivity.this, "User already exists! Please login", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Ez az email-cím már használatban van kérlek probálj meg egy másikat", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(SignupActivity.this, "Invalid Password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(SignupActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
-                    Toast.makeText(SignupActivity.this, "Signup Failed! try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
                 }
             }
         }
     });
+
     binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -113,5 +92,38 @@ protected void onCreate(Bundle savedInstanceState) {
             startActivity(intent);
         }
     });
+
 }
+
+    public String replaceAccents(String results){
+        if(results == null){
+            return null;
+        }
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < results.length(); i++) {
+            sb.append(replaceAccent(results.charAt(i)));
+        }
+        return sb.toString();
+    }
+    public char replaceAccent(char letter) {
+        switch (letter) {
+            case 'Á':
+                return 'A';
+            case 'É':
+                return 'E';
+            case 'Ó':
+            case 'Ő':
+            case 'Ö':
+                return 'O';
+            case 'Ú':
+            case 'Ű':
+            case 'Ü':
+                return 'U';
+            case 'Í':
+                return 'I';
+            default:
+                return letter;
+
+        }
+    }
 }
