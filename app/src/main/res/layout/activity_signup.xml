@@ -84,7 +84,7 @@
                 android:background="@drawable/orange_border"
                 android:layout_marginTop="20dp"
                 android:padding="8dp"
-                android:hint="Jelszó megerőssitése"
+                android:hint="Jelszó megerősítése"
                 android:inputType="textPassword"
                 android:drawableLeft="@drawable/ic_baseline_password_24"
                 android:drawablePadding="8dp"/>
@@ -92,7 +92,7 @@
             <Button
                 android:layout_width="350dp"
                 android:layout_height="70dp"
-                android:text="Sign Up"
+                android:text="Regisztráció"
                 android:id="@+id/signup_button"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"

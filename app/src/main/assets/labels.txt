@@ -1,3 +1,4 @@
-0 Diák
-1 Más igazolvány
+0 Diak
+1 Fa
 2 Ember
+3 Más igazolvány

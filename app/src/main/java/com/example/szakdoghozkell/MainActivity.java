@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity {
                         int maxpos = 0;
                         float maxconfidence = 0;
                         for (int i = 0; i < confidences.length; i++) {
-                            if (confidences[i] < maxconfidence) {
+                            if (confidences[i] > maxconfidence) {
                                 maxconfidence = confidences[i];
                                 maxpos = i;
                             }

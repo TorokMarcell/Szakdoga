@@ -30,7 +30,7 @@ protected void onCreate(Bundle savedInstanceState) {
             String firstname = binding.signupFirstname.getText().toString();
             String lastname = binding.signupLastname.getText().toString();
             String validated = "N";
-            Boolean checking = true;
+            boolean checking = true;
             if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals("")||firstname.equals("")||lastname.equals(""))
                 Toast.makeText(SignupActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
             if(!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")){
