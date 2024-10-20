@@ -29,7 +29,8 @@ protected void onCreate(Bundle savedInstanceState) {
             String confirmPassword = binding.signupConfirm.getText().toString();
             String firstname = binding.signupFirstname.getText().toString();
             String lastname = binding.signupLastname.getText().toString();
-            String validated = "N";
+            Integer validated = 0;
+            String role = "user";
             boolean checking = true;
             if(email.equals("")||password.equals("")||confirmPassword.equals("")||studentid.equals("")||firstname.equals("")||lastname.equals(""))
                 Toast.makeText(SignupActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
@@ -63,7 +64,7 @@ protected void onCreate(Bundle savedInstanceState) {
                         firstname =replaceAccents(firstname.toUpperCase());
                         lastname = replaceAccents(lastname.toUpperCase());
                         if (!checkUserEmail && !checkUserId) {
-                            Boolean insert = databaseHelper.insertData(email, password, studentid, validated, firstname, lastname);
+                            Boolean insert = databaseHelper.insertDataToUsers(email, password, studentid, validated, firstname, lastname, role);
                             if (insert) {
                                 Toast.makeText(SignupActivity.this, "Sikeres Regisztráció", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);
@@ -72,14 +73,14 @@ protected void onCreate(Bundle savedInstanceState) {
                                 Toast.makeText(SignupActivity.this, "Sikertelen Regisztráció", Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(SignupActivity.this, "Ez az email-cím már használatban van kérlek probálj meg egy másikat", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Ez az email-cím  vagy halgatói azonosító már használatban van kérlek probálj meg egy másikat", Toast.LENGTH_SHORT).show();
                         }
                     } else {
                         Toast.makeText(SignupActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
                     }
                 }
                 else{
-                    Toast.makeText(SignupActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "Valami nem stimmel.", Toast.LENGTH_SHORT).show();
                 }
             }
         }

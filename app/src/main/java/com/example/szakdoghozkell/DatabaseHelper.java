@@ -8,23 +8,15 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-import java.util.ArrayList;
-
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     public static final String databaseName = "DIAKIGAZOLVANY.db";
-    private static final String TABLE_NAME = "users";
+    private static final String USERS_TABLE = "users";
 
-    private static final String ID_COL = "email";
+    private static final  String JOBS_TABLE="jobs";
 
-    private static final String PASSWORD_COL = "password";
 
-    private static final String STUDENTID_COL = "studentid";
-
-    private static final String FIRSTNAME_COL = "firstname";
-
-    private static final String LASTNAME_COL = "lastname";
 
 
 
@@ -34,7 +26,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        MyDatabase.execSQL("create Table users(email TEXT primary key, password TEXT,studentid TEXT,firstname TEXT,lastname TEXT,validated TEXT)");
+        // TODO: 2024. 10. 12. 2 tablet létrehozni jobs users,gondolkozni hogyan tudnánk szét szedni még jobban
+        // TODO: 2024. 10. 12. Csinálni pluszt a regisztrációhoz plusz ablakot hol tanulsz? milyen munkák érdekelnek.
+        // TODO: 2024. 10. 12. javítani az ml modelt. 
+        MyDatabase.execSQL("create Table users(studentid TEXT primary key,email TEXT, password TEXT,firstname TEXT,lastname TEXT,validated INTEGER,role TEXT)");
+        MyDatabase.execSQL("create Table jobs(jobid INTEGER primary key,title TEXT, description TEXT,salary INTEGER,location TEXT)");
     }
 
     @Override
@@ -42,7 +38,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         MyDB.execSQL("drop Table if exists users");
     }
 
-    public Boolean insertData(String email, String password, String studentid, String validated, String firstName, String lastName) {
+    public Boolean insertDataToUsers(String email, String password, String studentid, Integer validated, String firstName, String lastName, String role) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("email", email);
@@ -51,8 +47,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("validated", validated);
         contentValues.put("firstname", firstName);
         contentValues.put("lastname", lastName);
-
         long result = MyDatabase.insert("users", null, contentValues);
+        if (result == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    public Boolean insertDataToJobs(String title, String description, int salary,String location) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("title", title);
+        contentValues.put("description", description);
+        contentValues.put("salary", salary);
+        contentValues.put("location", location);
+        long result = MyDatabase.insert(JOBS_TABLE, null, contentValues);
         if (result == -1) {
             return false;
         } else {
@@ -98,6 +107,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public Boolean checkIfAdmin(String email){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and role = 'ADMIN'", new String[]{email});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public Boolean checkFirstAndLastNameString(String studentid,String firstname,String lastname ) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select * from users where studentid = ? and firstName = ? and lastname = ?", new String[]{studentid,firstname,lastname});
@@ -117,19 +135,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public Boolean updateAllDatas(String email, String password, String studentid, String firstName, String lastName) {
+    public Boolean updateName(String studentid, String firstName, String lastName) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("password", password);
         contentValues.put("studentid", studentid);
         contentValues.put("firstname", firstName);
         contentValues.put("lastname", lastName);
-            long result = MyDatabase.update(TABLE_NAME, contentValues, "email=?", new String[]{email});
+            long result = MyDatabase.update(USERS_TABLE, contentValues, "studentid=?", new String[]{studentid});
             if (result > 0) {
                 return true;
             } else {
                 return false;
             }
         }
+
+    public Boolean updatePassword(String email, String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("email", email);
+        contentValues.put("password", password);
+        long result = MyDatabase.update(USERS_TABLE, contentValues, "email=?", new String[]{email});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
 }

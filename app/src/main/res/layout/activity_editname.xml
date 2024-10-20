@@ -25,7 +25,7 @@
             <EditText
                 android:layout_width="350dp"
                 android:layout_height="60dp"
-                android:id="@+id/signup_firstname"
+                android:id="@+id/edit_firstname"
                 android:background="@drawable/orange_border"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
@@ -34,7 +34,7 @@
                 android:drawablePadding="8dp"/>
 
             <EditText
-                android:id="@+id/signup_lastname"
+                android:id="@+id/edit_lastname"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
@@ -47,46 +47,12 @@
             <EditText
                 android:layout_width="350dp"
                 android:layout_height="60dp"
-                android:id="@+id/signup_email"
-                android:background="@drawable/orange_border"
-                android:layout_marginTop="30dp"
-                android:padding="8dp"
-                android:hint="Email"
-                android:drawableLeft="@drawable/ic_baseline_email_24"
-                android:drawablePadding="8dp"/>
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_studentId"
+                android:id="@+id/edit_studentId"
                 android:background="@drawable/orange_border"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
                 android:hint="Azonosító Szám"
                 android:drawableLeft="@drawable/baseline_people_24"
-                android:drawablePadding="8dp"/>
-
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_password"
-                android:background="@drawable/orange_border"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Jelszó"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/ic_baseline_lock_24"
-                android:drawablePadding="8dp"/>
-
-            <EditText
-                android:layout_width="350dp"
-                android:layout_height="60dp"
-                android:id="@+id/signup_confirm"
-                android:background="@drawable/orange_border"
-                android:layout_marginTop="20dp"
-                android:padding="8dp"
-                android:hint="Jelszó megerőssitése"
-                android:inputType="textPassword"
-                android:drawableLeft="@drawable/ic_baseline_password_24"
                 android:drawablePadding="8dp"/>
 
             <Button
@@ -97,16 +63,6 @@
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
                 app:cornerRadius = "30dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/MainRedirectText"
-                android:text="Ha mégse akarnál adatot módosítani kattints ide"
-                android:layout_gravity="center"
-                android:padding="8dp"
-                android:textSize="18sp"
-                android:layout_marginTop="8dp"
-                android:textColor="@color/orange"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

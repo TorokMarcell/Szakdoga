@@ -39,8 +39,6 @@ import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
-import javax.xml.transform.Result;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,7 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
     Button exitButton;
 
-    Button editButton;
+    Button editPasswordButton;
+    Button editNameButton;
 
     Button textRecognitionButton;
     TextView textView;
@@ -92,15 +91,23 @@ public class MainActivity extends AppCompatActivity {
         textRecognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
         databaseHelper= new DatabaseHelper(this);
         exitButton = findViewById(R.id.exitbutton);
-        editButton= findViewById(R.id.editbutton);
+        editPasswordButton = findViewById(R.id.editPasswordbutton);
+        editNameButton = findViewById(R.id.editNamebutton);
 
-        editButton.setOnClickListener(new View.OnClickListener() {
+        editPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, EditActivity.class);
                 startActivity(intent);
             }
         });
+//        editNameButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(MainActivity.this, EditNameActivity.class);
+//                startActivity(intent);
+//            }
+//        });
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,7 +281,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < results.length(); i++) {
             sb.append(replaceAccent(results.charAt(i)));
         }
-        return sb.toString();
+        return sb.toString().toUpperCase();
     }
     public char replaceAccent(char letter){
         switch (letter){

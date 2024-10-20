@@ -21,6 +21,9 @@
         <activity
             android:name=".EditActivity"
             android:exported="true" />
+<!--        <activity-->
+<!--            android:name=".EditPasswordActivity"-->
+<!--            android:exported="true" />-->
         <activity
             android:name=".LgoinActivity"
             android:exported="true">
@@ -46,6 +49,20 @@
         </activity>
         <activity
             android:name=".MainActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AdminActivity"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".AddJobsActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

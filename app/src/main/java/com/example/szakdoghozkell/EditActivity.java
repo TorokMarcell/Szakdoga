@@ -57,13 +57,11 @@ public class EditActivity extends AppCompatActivity {
                 }
                 else {
                     if (checking) {
-                        if (password.equals(confirmPassword)) {
-                            Boolean checkUserEmail = databaseHelper.checkEmail(email);
                             Boolean checkUserId = databaseHelper.checkStudentID(studentid);
                             firstname=firstname.toUpperCase();
                             lastname=lastname.toUpperCase();
                             if (!checkUserId) {
-                                Boolean update = databaseHelper.updateAllDatas(email, password, studentid,firstname, lastname);
+                                Boolean update = databaseHelper.updatePassword(email, password);
                                 if (update) {
                                     Toast.makeText(EditActivity.this, "Sikeres adatmódositás", Toast.LENGTH_SHORT).show();
                                     Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);
@@ -78,11 +76,7 @@ public class EditActivity extends AppCompatActivity {
                             Toast.makeText(EditActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
                         }
                     }
-                    else{
-                        Toast.makeText(EditActivity.this, "Helytelen Jelszó", Toast.LENGTH_SHORT).show();
-                    }
                 }
-            }
         });
     }
 }

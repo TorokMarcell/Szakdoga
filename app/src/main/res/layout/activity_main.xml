@@ -8,17 +8,30 @@
     android:background="@drawable/asdasdsadsa">
 
     <Button
-        android:id="@+id/editbutton"
+        android:id="@+id/editPasswordbutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
-        android:text="Adatok Módositása"
+        android:text="Jelszó Módositása"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.484"
+        app:layout_constraintHorizontal_bias="0.075"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.817" />
+        app:layout_constraintVertical_bias="0.761" />
+
+    <Button
+        android:id="@+id/editNamebutton"
+        android:layout_width="155dp"
+        android:layout_height="54dp"
+        android:layout_marginTop="40dp"
+        android:text="Név modositása Módositása"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.778" />
 
     <Button
         android:id="@+id/textRecogniton"
