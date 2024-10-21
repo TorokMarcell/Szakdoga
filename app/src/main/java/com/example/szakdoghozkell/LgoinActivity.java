@@ -28,7 +28,8 @@ public class LgoinActivity extends AppCompatActivity {
                     Toast.makeText(LgoinActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
                 else{
                     Boolean checkCredentials = databaseHelper.checkPassword(email, password);
-                    if(checkCredentials){
+                    Boolean checkAdminCredentials = databaseHelper.checkAdminPassword(email, password);
+                    if(checkCredentials||checkAdminCredentials){
                         if(databaseHelper.checkValidated(email)){
                             Toast.makeText(LgoinActivity.this, "Már készen vagy a Verifikációval.", Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(LgoinActivity.this, LgoinActivity.class);
@@ -38,6 +39,7 @@ public class LgoinActivity extends AppCompatActivity {
                             if(databaseHelper.checkIfAdmin(email)) {
                                 Toast.makeText(LgoinActivity.this, "Sikeres Bejelentkezés!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                                intent.putExtra("email",email);
                                 startActivity(intent);
                             }
                             else {

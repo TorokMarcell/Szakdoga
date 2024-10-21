@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/asdasdsadsa"
-    tools:context=".EditPasswordActivity">
+    tools:context=".AddJobsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,43 +21,67 @@
             android:layout_marginTop="380dp"
             android:padding="20dp">
 
-            <TextView
-                android:id="@+id/email_text"
-                android:layout_width="match_parent"
-                android:layout_height="45dp"
-                />
-
 
             <EditText
-                android:id="@+id/edit_password"
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:id="@+id/updatejobs_title"
+                android:background="@drawable/orange_border"
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:hint="Munka Címe"
+                android:drawableLeft="@drawable/baseline_people_24"
+                android:drawablePadding="8dp"/>
+
+            <EditText
+                android:id="@+id/updatejobs_description"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/orange_border"
                 android:drawableLeft="@drawable/baseline_people_24"
                 android:drawablePadding="8dp"
-                android:hint="Új jelszó"
+                android:hint="Rövid leirás"
                 android:padding="8dp" />
 
             <EditText
                 android:layout_width="350dp"
                 android:layout_height="60dp"
-                android:id="@+id/edit_repassword"
+                android:id="@+id/updatejobs_salary"
                 android:background="@drawable/orange_border"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="Új jelszó újra"
+                android:hint="Pénz"
+                android:drawableLeft="@drawable/ic_baseline_email_24"
+                android:drawablePadding="8dp"/>
+            <EditText
+                android:layout_width="350dp"
+                android:layout_height="60dp"
+                android:id="@+id/updatejobs_location"
+                android:background="@drawable/orange_border"
+                android:layout_marginTop="30dp"
+                android:padding="8dp"
+                android:hint="hely"
                 android:drawableLeft="@drawable/baseline_people_24"
                 android:drawablePadding="8dp"/>
 
             <Button
                 android:layout_width="350dp"
                 android:layout_height="70dp"
-                android:text="Jelszó Módositása"
-                android:id="@+id/editbutton"
+                android:text="Munka feladása"
+                android:id="@+id/updatejobs_button"
                 android:textSize="18sp"
                 android:layout_marginTop="30dp"
                 app:cornerRadius = "30dp"/>
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView" />
+
+
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,6 +17,7 @@ public class AdminActivity extends AppCompatActivity {
 
     DatabaseHelper databaseHelper;
 
+    TextView Email;
     Button exitButton;
     Button editPasswordButton;
     Button editNameButton;
@@ -31,10 +33,36 @@ public class AdminActivity extends AppCompatActivity {
         exitButton = findViewById(R.id.exitbutton);
         editPasswordButton = findViewById(R.id.editPasswordbutton);
         editNameButton = findViewById(R.id.editNamebutton);
+        Email = findViewById(R.id.textView3);
+        Intent intent = getIntent();
+        Email.setText(intent.getStringExtra("email"));
         addjobsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = Email.getText().toString();
                 Intent intent = new Intent(AdminActivity.this,AddJobsActivity.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
+            }
+        });
+        editPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminActivity.this, EditActivity.class);
+                startActivity(intent);
+            }
+        });
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminActivity.this, LgoinActivity.class);
+                startActivity(intent);
+            }
+        });
+        joblistbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminActivity.this, ListJobsActivity.class);
                 startActivity(intent);
             }
         });

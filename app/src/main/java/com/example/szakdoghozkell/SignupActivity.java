@@ -61,9 +61,10 @@ protected void onCreate(Bundle savedInstanceState) {
                     if (password.equals(confirmPassword)) {
                         Boolean checkUserEmail = databaseHelper.checkEmail(email);
                         Boolean checkUserId = databaseHelper.checkStudentID(studentid);
+                        Boolean checkAdminEmail = databaseHelper.checkAdminEmail(email);
                         firstname =replaceAccents(firstname.toUpperCase());
                         lastname = replaceAccents(lastname.toUpperCase());
-                        if (!checkUserEmail && !checkUserId) {
+                        if (!checkUserEmail && !checkUserId && !checkAdminEmail) {
                             Boolean insert = databaseHelper.insertDataToUsers(email, password, studentid, validated, firstname, lastname, role);
                             if (insert) {
                                 Toast.makeText(SignupActivity.this, "Sikeres Regisztráció", Toast.LENGTH_SHORT).show();

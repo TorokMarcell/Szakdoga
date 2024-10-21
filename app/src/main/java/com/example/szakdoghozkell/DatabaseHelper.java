@@ -2,9 +2,11 @@ package com.example.szakdoghozkell;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.Nullable;
 
@@ -18,7 +20,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
 
-
+    Context context;
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "DIAKIGAZOLVANY.db", null, 1);
@@ -26,11 +28,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        // TODO: 2024. 10. 12. 2 tablet létrehozni jobs users,gondolkozni hogyan tudnánk szét szedni még jobban
-        // TODO: 2024. 10. 12. Csinálni pluszt a regisztrációhoz plusz ablakot hol tanulsz? milyen munkák érdekelnek.
-        // TODO: 2024. 10. 12. javítani az ml modelt. 
         MyDatabase.execSQL("create Table users(studentid TEXT primary key,email TEXT, password TEXT,firstname TEXT,lastname TEXT,validated INTEGER,role TEXT)");
-        MyDatabase.execSQL("create Table jobs(jobid INTEGER primary key,title TEXT, description TEXT,salary INTEGER,location TEXT)");
+        MyDatabase.execSQL("create Table jobs(jobid INTEGER primary key,title TEXT, description TEXT,salary INTEGER,location TEXT,adminid INTEGER, FOREIGN KEY(adminid)  references admin(id))");
+        MyDatabase.execSQL("create Table admin(id INTEGER primary key,email TEXT, password TEXT)");
     }
 
     @Override
@@ -54,13 +54,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public Boolean insertDataToJobs(String title, String description, int salary,String location) {
+    public Boolean insertDataToJobs(String title, String description, int salary,String location,int adminid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("title", title);
         contentValues.put("description", description);
         contentValues.put("salary", salary);
         contentValues.put("location", location);
+        contentValues.put("adminid",adminid);
         long result = MyDatabase.insert(JOBS_TABLE, null, contentValues);
         if (result == -1) {
             return false;
@@ -78,10 +79,42 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public int getAdminId(String email) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = null;
+        int adminid = 0;
+       try {
+          cursor =  MyDatabase.rawQuery("Select * from admin where email = ?", new String[]{email});
+          if(cursor.getCount() >0){
+              cursor.moveToFirst();
+              adminid = cursor.getInt(cursor.getColumnIndexOrThrow("id"));
+          }
+          return adminid;
+       }finally {
+           cursor.close();
+       }
+    }
+    public Boolean checkAdminEmail(String email) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from admin where email = ?", new String[]{email});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     public Boolean checkPassword(String email, String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and password = ?", new String[]{email, password});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }public Boolean checkAdminPassword(String email, String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from admin where email = ? and password = ?", new String[]{email, password});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -109,7 +142,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Boolean checkIfAdmin(String email){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ? and role = 'ADMIN'", new String[]{email});
+        Cursor cursor = MyDatabase.rawQuery("Select * from admin where email = ?", new String[]{email});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -135,24 +168,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
-    public Boolean updateName(String studentid, String firstName, String lastName) {
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("studentid", studentid);
-        contentValues.put("firstname", firstName);
-        contentValues.put("lastname", lastName);
-            long result = MyDatabase.update(USERS_TABLE, contentValues, "studentid=?", new String[]{studentid});
-            if (result > 0) {
-                return true;
-            } else {
-                return false;
-            }
-        }
 
-    public Boolean updatePassword(String email, String password) {
+    public Boolean updatePassword(String email,String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("email", email);
         contentValues.put("password", password);
         long result = MyDatabase.update(USERS_TABLE, contentValues, "email=?", new String[]{email});
         if (result > 0) {
@@ -160,6 +179,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         } else {
             return false;
         }
+    }
+    public SimpleCursorAdapter getDatas(int adminid){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
+        String[] columnames = new String[]{
+                "jobid","title","description","salary","location","adminid"
+        };
+        int[] viewIds = new int[]{R.id.updatejobs_title,R.id.updatejobs_description,R.id.updatejobs_salary,R.id.updatejobs_location};
+        SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
+                context,R.layout.activity_updatejobs,cursor,columnames,viewIds
+        );
+        return contactAdapter;
     }
 
 }

@@ -4,42 +4,42 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityEditpasswordemailBinding;
+import com.example.szakdoghozkell.databinding.ActivityEditnameBinding;
+import com.example.szakdoghozkell.databinding.ActivityEditpasswordemailadminBinding;
 
-public class EditActivity extends AppCompatActivity {
-
-    ActivityEditpasswordemailBinding binding;
-
-    Button resetButton;
-    EditText Email;
+public class AdminEditActivity extends AppCompatActivity {
+    ActivityEditpasswordemailadminBinding binding;
 
     DatabaseHelper databaseHelper;
+
+    TextView Email;
+    Button editbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEditpasswordemailBinding.inflate(getLayoutInflater());
+        binding = ActivityEditpasswordemailadminBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         databaseHelper = new DatabaseHelper(this);
-        resetButton = findViewById(R.id.editbutton2);
-        Email = findViewById(R.id.edite_email);
+        Email = findViewById(R.id.edite_emailadmin);
+        editbutton = findViewById(R.id.editbutton3);
 
-        resetButton.setOnClickListener(new View.OnClickListener() {
+        editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String email = Email.getText().toString();
-                Boolean checkemail = databaseHelper.checkEmail(email);
+                Boolean checkemail = databaseHelper.checkAdminEmail(email);
                 if(checkemail){
                     Intent intent = new Intent(getApplicationContext(),EditPasswordActivity.class);
                     intent.putExtra("email",email);
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(EditActivity.this, "Rosz emailcímet adtál meg", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AdminEditActivity.this, "Rosz emailcímet adtál meg", Toast.LENGTH_SHORT).show();
                 }
             }
         });

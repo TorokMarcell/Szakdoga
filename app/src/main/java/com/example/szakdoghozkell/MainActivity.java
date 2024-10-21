@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     Button exitButton;
 
     Button editPasswordButton;
-    Button editNameButton;
+
 
     Button textRecognitionButton;
     TextView textView;
@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper= new DatabaseHelper(this);
         exitButton = findViewById(R.id.exitbutton);
         editPasswordButton = findViewById(R.id.editPasswordbutton);
-        editNameButton = findViewById(R.id.editNamebutton);
+
 
         editPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
