@@ -24,6 +24,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public DatabaseHelper(@Nullable Context context) {
         super(context, "DIAKIGAZOLVANY.db", null, 1);
+        this.context = context;
     }
 
     @Override
@@ -182,13 +183,13 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public SimpleCursorAdapter getDatas(int adminid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select * from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
+        Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
         String[] columnames = new String[]{
-                "jobid","title","description","salary","location","adminid"
+                "_id","title","description","salary","location","adminid"
         };
         int[] viewIds = new int[]{R.id.updatejobs_title,R.id.updatejobs_description,R.id.updatejobs_salary,R.id.updatejobs_location};
         SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
-                context,R.layout.activity_updatejobs,cursor,columnames,viewIds
+                context,R.layout.activity_single_item,cursor,columnames,viewIds
         );
         return contactAdapter;
     }

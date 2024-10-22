@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@drawable/asdasdsadsa"
-    tools:context=".AddJobsActivity">
+    android:background="@drawable/asdasdsadsa"    tools:context=".AddJobsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,7 +60,7 @@
                 android:background="@drawable/orange_border"
                 android:layout_marginTop="30dp"
                 android:padding="8dp"
-                android:hint="hely"
+                android:hint="PÉNISZ"
                 android:drawableLeft="@drawable/baseline_people_24"
                 android:drawablePadding="8dp"/>
 
