@@ -12,33 +12,28 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityListjobssBinding;
-
-public class ListJobsActivity  extends AppCompatActivity {
-
-    TextView Email;
-    ActivityListjobssBinding binding;
-
+public class ListJobsForUserActivity extends AppCompatActivity {
     DatabaseHelper databaseHelper;
+    TextView Email;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         databaseHelper = new DatabaseHelper(this);
-        setContentView(R.layout.activity_listjobss);
-        ListView jobslist = findViewById(R.id.list_jobs);
-        Email = findViewById(R.id.textView7);
+        setContentView(R.layout.activity_listjobsforuser);
+        ListView jobslist = findViewById(R.id.list_jobs_for_user);
+        Email = findViewById(R.id.textView8);
         Intent intent = getIntent();
         Email.setText(intent.getStringExtra("email"));
         String email = Email.getText().toString();
-        int adminid = databaseHelper.getAdminId(email);
-        final SimpleCursorAdapter simpleCursorAdapter = databaseHelper.getDatas(adminid);
+        final SimpleCursorAdapter simpleCursorAdapter = databaseHelper.getDatasforUser();
         jobslist.setAdapter(simpleCursorAdapter);
 
         jobslist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(ListJobsActivity.this,ListApplicantsActivity.class);
+                Intent intent = new Intent(ListJobsForUserActivity.this,ApplyActivity.class);
                 intent.putExtra("jobid", (int) id);
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
         });

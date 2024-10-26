@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/asdasdsadsa"
+    tools:context=".ApplyActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="380dp"
+            android:padding="20dp">
+
+
+            <EditText
+                android:id="@+id/apply_description"
+                android:layout_width="match_parent"
+                android:layout_height="217dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/orange_border"
+                android:drawableLeft="@drawable/baseline_people_24"
+                android:drawablePadding="8dp"
+                android:hint="Rövid leirás magadról"
+                android:padding="8dp" />
+
+            <Button
+                android:layout_width="350dp"
+                android:layout_height="70dp"
+                android:text="Munkára Jelentkezés"
+                android:id="@+id/apply_button"
+                android:textSize="18sp"
+                android:layout_marginTop="30dp"
+                app:cornerRadius = "30dp"/>
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:text="TextView" />
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="invisible"
+                android:text="TextView" />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

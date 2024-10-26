@@ -6,15 +6,16 @@
     android:layout_height="match_parent"
     android:background="@drawable/asdasdsadsa"
     android:orientation="vertical"
-    tools:context=".ListJobsActivity">
+    tools:context=".ListJobsForUserActivity">
 
 
     <ListView
-        android:id="@+id/list_jobs"
+        android:id="@+id/list_jobs_for_user"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textView8"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
@@ -31,4 +32,5 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 </RelativeLayout>

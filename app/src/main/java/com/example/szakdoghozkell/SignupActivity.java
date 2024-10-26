@@ -65,7 +65,7 @@ protected void onCreate(Bundle savedInstanceState) {
                         firstname =replaceAccents(firstname.toUpperCase());
                         lastname = replaceAccents(lastname.toUpperCase());
                         if (!checkUserEmail && !checkUserId && !checkAdminEmail) {
-                            Boolean insert = databaseHelper.insertDataToUsers(email, password, studentid, validated, firstname, lastname, role);
+                            Boolean insert = databaseHelper.insertDataToUsers(email, password, studentid, validated, firstname, lastname);
                             if (insert) {
                                 Toast.makeText(SignupActivity.this, "Sikeres Regisztráció", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);

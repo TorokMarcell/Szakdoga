@@ -36,6 +36,7 @@ public class AdminActivity extends AppCompatActivity {
         Email = findViewById(R.id.textView3);
         Intent intent = getIntent();
         Email.setText(intent.getStringExtra("email"));
+
         addjobsbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +63,9 @@ public class AdminActivity extends AppCompatActivity {
         joblistbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String email = Email.getText().toString();
                 Intent intent = new Intent(AdminActivity.this, ListJobsActivity.class);
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
         });

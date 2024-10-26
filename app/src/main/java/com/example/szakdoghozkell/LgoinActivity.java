@@ -31,8 +31,8 @@ public class LgoinActivity extends AppCompatActivity {
                     Boolean checkAdminCredentials = databaseHelper.checkAdminPassword(email, password);
                     if(checkCredentials||checkAdminCredentials){
                         if(databaseHelper.checkValidated(email)){
-                            Toast.makeText(LgoinActivity.this, "Már készen vagy a Verifikációval.", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(LgoinActivity.this, LgoinActivity.class);
+                            Intent intent = new Intent(LgoinActivity.this, UserActivity.class);
+                            intent.putExtra("email",email);
                             startActivity(intent);
                         }
                         else {

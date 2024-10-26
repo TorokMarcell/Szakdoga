@@ -46,6 +46,9 @@ public class AddJobsActivity extends AppCompatActivity {
                     intent.putExtra("email",Email);
                     startActivity(intent);
                 }
+                else{
+                    Toast.makeText(AddJobsActivity.this, "Sikereses Feladtad ezt a munkát", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
