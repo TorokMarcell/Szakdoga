@@ -44,5 +44,14 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        registerforjobs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = Email.getText().toString();
+                Intent intent = new Intent(UserActivity.this,ListJobsForApplicantsActivity.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
+            }
+        });
     }
 }

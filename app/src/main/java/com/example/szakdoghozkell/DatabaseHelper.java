@@ -79,6 +79,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("studentid", studentid);
         contentValues.put("jobid", jobid);
         contentValues.put("userDescreption", description);
+        contentValues.put("accepted","Még nem kaptál viszajelzést");
         long result = MyDatabase.insert(ACCAPTENCE_TABLE, null, contentValues);
         if (result == -1) {
             return false;
@@ -122,6 +123,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 studentId = cursor.getString(cursor.getColumnIndexOrThrow("studentid"));
             }
             return studentId;
+        }finally {
+            cursor.close();
+        }
+    }
+    public String getUserDescreption(String studentId,int jobid){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = null;
+        String userDescreption = null;
+        try{
+            cursor =  MyDatabase.rawQuery("Select * from jobsAcceptence where studentid = ? and jobid = ?", new String[]{studentId, String.valueOf(jobid)});
+            if(cursor.getCount() >0){
+                cursor.moveToFirst();
+                userDescreption = cursor.getString(cursor.getColumnIndexOrThrow("userDescreption"));
+            }
+            return userDescreption;
         }finally {
             cursor.close();
         }
@@ -212,6 +228,48 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public Boolean updateAcceptenceAccepted(String studentid,int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("accepted", "SIKERES");
+        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean updateAcceptenceDeclined(String studentid,int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("accepted", "SIKERTELEN");
+        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean updateAcceptencedeclinedv(int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("accepted", "Már valaki másé lett az állás");
+        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "accepted=? and jobid=?", new String[]{"Még nem kaptál viszajelzést", String.valueOf(jobid)});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean deletejob(int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        long result = MyDatabase.delete(JOBS_TABLE," jobid=?", new String[]{String.valueOf(jobid)});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public SimpleCursorAdapter getDatas(int adminid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
@@ -239,6 +297,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public SimpleCursorAdapter getDatasforApplicants(int jobid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select id as _id,studentid,jobid,userDescreption,accepted from jobsAcceptence where jobid = ?",new String[]{String.valueOf(jobid)});
+        String[] columnames = new String[]{
+                "_id","studentid","jobid","userDescreption","accepted"
+        };
+        int[] viewIds = new int[]{R.id.appentece_studentid,R.id.appentece_jobid,R.id.appentece_userdescreption};
+        SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
+                context,R.layout.activity_single_item_applicants,cursor,columnames,viewIds
+        );
+        return contactAdapter;
+    }
+    public SimpleCursorAdapter getDatasforApplicant(String studentid){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select id as _id,studentid,jobid,userDescreption,accepted from jobsAcceptence where studentid = ?",new String[]{String.valueOf(studentid)});
         String[] columnames = new String[]{
                 "_id","studentid","jobid","userDescreption","accepted"
         };
