@@ -8,27 +8,15 @@
     android:background="@drawable/asdasdsadsa">
 
 
-
     <Button
         android:id="@+id/editPasswordbutton"
         android:layout_width="193dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="200dp"
-        android:layout_marginBottom="192dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginBottom="188dp"
         android:text="Jelszó Módositása"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <Button
-        android:id="@+id/editNamebutton"
-        android:layout_width="155dp"
-        android:layout_height="54dp"
-        android:layout_marginBottom="196dp"
-        android:text="Név modositása Módositása"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.937"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/joblistButton"
@@ -70,7 +58,8 @@
         app:layout_constraintBottom_toTopOf="@+id/addjobbutton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:visibility="invisible"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

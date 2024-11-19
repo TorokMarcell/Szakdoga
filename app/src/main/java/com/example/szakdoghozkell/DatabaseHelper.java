@@ -30,10 +30,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase MyDatabase) {
-        MyDatabase.execSQL("create Table users(studentid TEXT primary key,email TEXT, password TEXT,firstname TEXT,lastname TEXT,validated INTEGER)");
-        MyDatabase.execSQL("create Table jobs(jobid INTEGER primary key,title TEXT, description TEXT,salary INTEGER,location TEXT,adminid INTEGER, FOREIGN KEY(adminid)  references admin(id))");
+        MyDatabase.execSQL("create Table users(studentid TEXT primary key,email TEXT, password TEXT,firstname TEXT,lastname TEXT,birthDate DATE,validated INTEGER)");
+        MyDatabase.execSQL("create Table jobs(jobid INTEGER primary key,title TEXT, description TEXT,salary INTEGER,location TEXT,adminid INTEGER,avalaible INTEGER, FOREIGN KEY(adminid)  references admin(id))");
         MyDatabase.execSQL("create Table admin(id INTEGER primary key,email TEXT, password TEXT)");
-        MyDatabase.execSQL("create Table jobsAcceptence(id INTEGER primary key,studentid TEXT, jobid INTEGER,userDescreption TEXT,accepted TEXT, FOREIGN KEY(studentid) references users(studentid), FOREIGN KEY(jobid) references jobs(id))");
+        MyDatabase.execSQL("create Table jobsAcceptence(id INTEGER primary key,studentid TEXT, jobid INTEGER,userDescreption TEXT,accepted INTEGER, FOREIGN KEY(studentid) references users(studentid), FOREIGN KEY(jobid) references jobs(id))");
+        MyDatabase.execSQL("create Table applicationProcess(id INTEGER primary key,applicationProcessText TEXT, FOREIGN KEY(id) references jobsAcceptence(accepted))");
     }
 
     @Override
@@ -59,27 +60,37 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
     public Boolean insertDataToJobs(String title, String description, int salary,String location,int adminid) {
-        SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put("title", title);
-        contentValues.put("description", description);
-        contentValues.put("salary", salary);
-        contentValues.put("location", location);
-        contentValues.put("adminid",adminid);
-        long result = MyDatabase.insert(JOBS_TABLE, null, contentValues);
-        if (result == -1) {
+        if(title.equals("")||description.equals("")||salary==-1||location.equals("")|| adminid ==-1) {
             return false;
-        } else {
-            return true;
         }
+        else{
+            SQLiteDatabase MyDatabase = this.getWritableDatabase();
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("title", title);
+            contentValues.put("description", description);
+            contentValues.put("salary", salary);
+            contentValues.put("location", location);
+            contentValues.put("adminid", adminid);
+            contentValues.put("avalaible", 1);
+            long result = MyDatabase.insert(JOBS_TABLE, null, contentValues);
+            if (result == -1) {
+                return false;
+            } else {
+                return true;
+            }
+        }
+
     }
     public Boolean insertDataTojobsAcceptence(String studentid, int jobid,String description) {
+        if(studentid.equals("")||jobid < 0||description.equals("")) {
+            return false;
+        }
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("studentid", studentid);
         contentValues.put("jobid", jobid);
         contentValues.put("userDescreption", description);
-        contentValues.put("accepted","Még nem kaptál viszajelzést");
+        contentValues.put("accepted",0);
         long result = MyDatabase.insert(ACCAPTENCE_TABLE, null, contentValues);
         if (result == -1) {
             return false;
@@ -91,6 +102,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean checkEmail(String email) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select * from users where email = ?", new String[]{email});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean checkEmailAdmin(String email) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from admin where email = ?", new String[]{email});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -209,7 +229,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     public Boolean updatevalidated(String studentid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Update users set validated =  'I' where studentid = ?", new String[]{studentid});
+        Cursor cursor = MyDatabase.rawQuery("Update users set validated =  1 where studentid = ?", new String[]{studentid});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -217,7 +237,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
-    public Boolean updatePassword(String email,String password) {
+    public Boolean updatePasswordAdmin(String email,String password) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("password", password);
+        long result = MyDatabase.update("admin", contentValues, "email=?", new String[]{email});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean updatePasswordUser(String email,String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("password", password);
@@ -263,7 +294,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public Boolean deletejob(int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        long result = MyDatabase.delete(JOBS_TABLE," jobid=?", new String[]{String.valueOf(jobid)});
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("avalaible", 0);
+        long result = MyDatabase.update(JOBS_TABLE,contentValues," jobid=?", new String[]{String.valueOf(jobid)});
         if (result > 0) {
             return true;
         } else {
@@ -274,9 +307,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
         String[] columnames = new String[]{
-                "_id","title","description","salary","location","adminid"
+                "title","description","salary","location","adminid"
         };
-        int[] viewIds = new int[]{R.id.updatejobs_title,R.id.updatejobs_description,R.id.updatejobs_salary,R.id.updatejobs_location};
+        int[] viewIds = new int[]{R.id.singleitemtitle,R.id.singleitemdescreption,R.id.singleitemtsalary,R.id.singleitemlocation};
         SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
                 context,R.layout.activity_single_item,cursor,columnames,viewIds
         );
@@ -286,9 +319,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs",new String[]{});
         String[] columnames = new String[]{
-                "_id","title","description","salary","location","adminid"
+                "title","description","salary","location","adminid"
         };
-        int[] viewIds = new int[]{R.id.updatejobs_title,R.id.updatejobs_description,R.id.updatejobs_salary,R.id.updatejobs_location};
+        int[] viewIds = new int[]{R.id.singleitemtitle,R.id.singleitemdescreption,R.id.singleitemtsalary,R.id.singleitemlocation};
         SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
                 context,R.layout.activity_single_item,cursor,columnames,viewIds
         );
@@ -298,9 +331,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select id as _id,studentid,jobid,userDescreption,accepted from jobsAcceptence where jobid = ?",new String[]{String.valueOf(jobid)});
         String[] columnames = new String[]{
-                "_id","studentid","jobid","userDescreption","accepted"
+               "studentid","userDescreption","accepted"
         };
-        int[] viewIds = new int[]{R.id.appentece_studentid,R.id.appentece_jobid,R.id.appentece_userdescreption};
+        int[] viewIds = new int[]{R.id.singleitemstudentid,R.id.singleitemtuserDescreption};
         SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
                 context,R.layout.activity_single_item_applicants,cursor,columnames,viewIds
         );
@@ -310,9 +343,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select id as _id,studentid,jobid,userDescreption,accepted from jobsAcceptence where studentid = ?",new String[]{String.valueOf(studentid)});
         String[] columnames = new String[]{
-                "_id","studentid","jobid","userDescreption","accepted"
+                "studentid","userDescreption","accepted"
         };
-        int[] viewIds = new int[]{R.id.appentece_studentid,R.id.appentece_jobid,R.id.appentece_userdescreption};
+        int[] viewIds = new int[]{R.id.singleitemstudentid,R.id.singleitemtuserDescreption};
         SimpleCursorAdapter contactAdapter = new SimpleCursorAdapter(
                 context,R.layout.activity_single_item_applicants,cursor,columnames,viewIds
         );

@@ -1,36 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+    <TableRow>
 
-    <TextView
-        android:id="@+id/updatejobs_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Title" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
         <TextView
-            android:id="@+id/updatejobs_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Descreption"/>
+            android:layout_width="104dp"
+            android:padding="3dip"
+            android:text="Munka címe" />
 
-    </LinearLayout>
+        <TextView
 
-    <TextView
-        android:id="@+id/updatejobs_salary"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descreption" />
+            android:id="@+id/singleitemtitle"
+            android:layout_width="114dp"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
 
-    <TextView
-        android:id="@+id/updatejobs_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Descreption" />
-</LinearLayout>
+    <TableRow>
+
+        <TextView
+            android:padding="3dip"
+            android:text="Munka leírása" />
+
+        <TextView
+            android:id="@+id/singleitemdescreption"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:padding="3dip"
+            android:text="Fizetés" />
+
+        <TextView
+            android:id="@+id/singleitemtsalary"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+    <TableRow>
+
+        <TextView
+            android:padding="3dip"
+            android:text="Munka helye" />
+
+        <TextView
+            android:id="@+id/singleitemlocation"
+            android:gravity="left"
+            android:padding="3dip" />
+    </TableRow>
+</TableLayout>

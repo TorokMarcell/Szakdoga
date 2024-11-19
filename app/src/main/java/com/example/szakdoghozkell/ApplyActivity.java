@@ -37,20 +37,36 @@ public class ApplyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String description = binding.applyDescription.getText().toString();
-                if(description.equals("")){
-                    Toast.makeText(ApplyActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
-                }
-                Boolean insert = databaseHelper.insertDataTojobsAcceptence(studentid,jobid,description);
-                if(insert){
-                    Toast.makeText(ApplyActivity.this, "jelentkeztál juhú", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                    intent.putExtra("email",Email);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(ApplyActivity.this, "buta fasz", Toast.LENGTH_SHORT).show();
+                if(allFieldNotEmpty(description)){
+                    if(insertToDb(studentid,jobid,description)){
+                        Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                        intent.putExtra("email",Email);
+                        startActivity(intent);
+                    }
                 }
             }
         });
+
+
+    }
+    public boolean allFieldNotEmpty(String descreption){
+        if(descreption.equals("")){
+            Toast.makeText(ApplyActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    public boolean insertToDb(String studentid,int jobid,String description){
+        Boolean insert = databaseHelper.insertDataTojobsAcceptence(studentid,jobid,description);
+        if (insert) {
+            Toast.makeText(ApplyActivity.this, "Sikeresen Jelentkeztél", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        else{
+            Toast.makeText(ApplyActivity.this, "Valami hiba történt kérlek próbáld meg újra", Toast.LENGTH_SHORT).show();
+            return false;
+        }
     }
 }

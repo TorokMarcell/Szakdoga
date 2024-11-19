@@ -32,7 +32,6 @@ public class AdminActivity extends AppCompatActivity {
         addjobsbutton = findViewById(R.id.addjobbutton);
         exitButton = findViewById(R.id.exitbutton);
         editPasswordButton = findViewById(R.id.editPasswordbutton);
-        editNameButton = findViewById(R.id.editNamebutton);
         Email = findViewById(R.id.textView3);
         Intent intent = getIntent();
         Email.setText(intent.getStringExtra("email"));
@@ -49,7 +48,9 @@ public class AdminActivity extends AppCompatActivity {
         editPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminActivity.this, EditActivity.class);
+                String email = Email.getText().toString();
+                Intent intent = new Intent(AdminActivity.this, EditPasswordActivity.class);
+                intent.putExtra("email",email);
                 startActivity(intent);
             }
         });

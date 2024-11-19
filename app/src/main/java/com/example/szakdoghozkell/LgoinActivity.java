@@ -45,6 +45,7 @@ public class LgoinActivity extends AppCompatActivity {
                             else {
                                 Toast.makeText(LgoinActivity.this, "Sikeres Bejelentkezés!", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                                intent.putExtra("email",email);
                                 startActivity(intent);
                             }
                         }

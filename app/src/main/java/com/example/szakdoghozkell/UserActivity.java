@@ -53,5 +53,12 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        exitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(UserActivity.this, LgoinActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

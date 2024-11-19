@@ -59,11 +59,14 @@ public class MainActivity extends AppCompatActivity {
     ImageButton captureButton;
     Bitmap bitmap;
 
+    TextView Email;
+
     TextRecognizer textRecognizer;
     DatabaseHelper databaseHelper;
     String resultid;
     String resultFirstname;
     String resultLastname;
+    String Studentid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +95,11 @@ public class MainActivity extends AppCompatActivity {
         databaseHelper= new DatabaseHelper(this);
         exitButton = findViewById(R.id.exitbutton);
         editPasswordButton = findViewById(R.id.editPasswordbutton);
-
+        Email = findViewById(R.id.main_email);
+        Intent intent = getIntent();
+        Email.setText(intent.getStringExtra("email"));
+        String email = Email.getText().toString();
+        Studentid = databaseHelper.getStudentId(email);
 
         editPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,47 +200,29 @@ public class MainActivity extends AppCompatActivity {
     private void recognizeTextFromImage() {
 
         InputImage inputImage = InputImage.fromBitmap(bitmap, 0);
+
         Task<Text> textResult = textRecognizer.process(inputImage).addOnSuccessListener(new OnSuccessListener<Text>() {
             @Override
             public void onSuccess(Text text) {
-
                 String recognizedText = text.getText();
                 String[] asd =recognizedText.split("\n");
                 for (int i = 0; i < asd.length; i++) {
-                    if (asd[i].matches("KÁRTYASZÁM")||asd[i].matches("KARTYASZÁM")){
-                        resultid =asd[i+1];
-                        while (resultid.length() !=10){
-                            resultid = resultid+asd[i+2];
-                        }
+                    if (asd[i].matches(Studentid)){
+                        resultid =asd[i];
                     }
-                    if (asd[i].matches("SURNAME AND GIVEN AME")||asd[i].matches("SURNAME AND GIVEN NAME")){
-                        resultFirstname = asd[i+2];
-                        resultLastname = asd[i+3];
-                        resultFirstname=replaceAccents(resultFirstname);
-                        resultLastname=replaceAccents(resultLastname);
-                    }
-
                 }
-
-                if (databaseHelper.checkFirstAndLastNameString(resultid,resultFirstname,resultLastname)&&result.equals("0 Diák")){
+                if (result.equals("0 Diák")){
                     Toast.makeText(MainActivity.this, "Sikeres volt a Verifikáció.", Toast.LENGTH_SHORT).show();
                     databaseHelper.updatevalidated(resultid);
+                    Intent intent = new Intent(MainActivity.this, LgoinActivity.class);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Nem sikerült a verifikáció kérlek probáld meg újra egy jobb minőségű képpel", Toast.LENGTH_SHORT).show();
                 }
-//                databaseHelper.checkStudentID();
-//                textView.setText(recognizedText);
-
-            }
-        })
-             .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MainActivity.this, "ASD", Toast.LENGTH_SHORT).show();
             }
         });
-    }
+        }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {

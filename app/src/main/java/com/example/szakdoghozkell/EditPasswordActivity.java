@@ -30,25 +30,42 @@ public class EditPasswordActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         email.setText(intent.getStringExtra("email"));
-
+        String stremail = email.getText().toString();
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String password = binding.editPassword.getText().toString();
-                String confirmPassword = binding.editRepassword.getText().toString();
-                String stremail = email.getText().toString();
-                if (password.equals(confirmPassword)) {
-                    Boolean checkpassword = databaseHelper.updatePassword(stremail,password);
-                    if (checkpassword) {
-                        Toast.makeText(EditPasswordActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                        startActivity(intent);
+                if (databaseHelper.checkIfAdmin(stremail)) {
+                    String password = binding.editPassword.getText().toString();
+                    String confirmPassword = binding.editRepassword.getText().toString();
+                    if (password.equals(confirmPassword)) {
+                        Boolean checkpassword = databaseHelper.updatePasswordAdmin(stremail, password);
+                        if (checkpassword) {
+                            Toast.makeText(EditPasswordActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(EditPasswordActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
-                        Toast.makeText(EditPasswordActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPasswordActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
                     }
                 }
-                else {
-                    Toast.makeText(EditPasswordActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
+                if (databaseHelper.checkIfAdmin(stremail)) {
+                    String password = binding.editPassword.getText().toString();
+                    String confirmPassword = binding.editRepassword.getText().toString();
+
+                    if (password.equals(confirmPassword)) {
+                        Boolean checkpassword = databaseHelper.updatePasswordAdmin(stremail, password);
+                        if (checkpassword) {
+                            Toast.makeText(EditPasswordActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(EditPasswordActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(EditPasswordActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });

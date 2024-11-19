@@ -44,12 +44,12 @@ public class ApplicantsAcceptOrDeclineActivity extends AppCompatActivity {
                 if (accepted) {
                     Boolean evrybodyelsedeclined = databaseHelper.updateAcceptencedeclinedv(jobid);
                     Boolean deletejob = databaseHelper.deletejob(jobid);
-                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Elfogadtad", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Elfogadtad a tanuló jelentkezését", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "fosvagy el baztad", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Valami hiba történt kérlek próbáld meg újra", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -58,12 +58,12 @@ public class ApplicantsAcceptOrDeclineActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Boolean declined = databaseHelper.updateAcceptenceDeclined(StudentId,jobid);
                 if (declined) {
-                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Eutasítotad", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Eutasítotad a tanuló jelentkezését", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                     startActivity(intent);
                 }
                 else {
-                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "fosvagy el baztad a declient", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ApplicantsAcceptOrDeclineActivity.this, "Valami hiba történt kérlek próbáld meg újra", Toast.LENGTH_SHORT).show();
                 }
             }
         });
