@@ -2,13 +2,9 @@ package com.example.szakdoghozkell;
 
 import static androidx.test.core.app.ApplicationProvider.getApplicationContext;
 import static androidx.test.espresso.Espresso.onView;
-import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static androidx.test.espresso.action.ViewActions.typeText;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import android.os.SystemClock;
-
-
 import static org.junit.Assert.assertNotNull;
 
 import android.content.Intent;
@@ -27,10 +23,9 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
-
 @SmallTest
 @RunWith(AndroidJUnit4ClassRunner.class)
-public class LoginBDDTest {
+public class MyStepdefs {
     @Rule
     public ActivityTestRule<LgoinActivity> activityTestRule = new ActivityTestRule<>(LgoinActivity.class);
 
@@ -72,4 +67,5 @@ public class LoginBDDTest {
     public void aValidációMenübenTalálomMagam() {
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
     }
+
 }

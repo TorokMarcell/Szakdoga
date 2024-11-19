@@ -64,4 +64,11 @@ public class LgoinActivity extends AppCompatActivity {
             }
         });
     }
+    public boolean allFieldNotEmpty(String email,String password){
+        if(email.equals("")||password.equals("")) {
+            Toast.makeText(LgoinActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
 }
