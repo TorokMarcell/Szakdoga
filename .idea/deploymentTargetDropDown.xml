@@ -2,7 +2,19 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="LoginBDDTest">
+      <entry key="RegisterTest">
+        <State />
+      </entry>
+      <entry key="RegisterUiTest()">
+        <State />
+      </entry>
+      <entry key="RegisterUiTestWithNodata()">
+        <State />
+      </entry>
+      <entry key="RegisterUiTestWithWrongBirthDate()">
+        <State />
+      </entry>
+      <entry key="SignupForJobctivityTest">
         <State />
       </entry>
       <entry key="app">

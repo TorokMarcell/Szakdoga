@@ -147,6 +147,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             cursor.close();
         }
     }
+    public String getAcceptence(int id){
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = null;
+        String studentId = null;
+        try{
+            cursor =  MyDatabase.rawQuery("Select applicationProcessText from applicationProcess where id = ?", new String[]{String.valueOf(id)});
+            if(cursor.getCount() >0){
+                cursor.moveToFirst();
+                studentId = cursor.getString(cursor.getColumnIndexOrThrow("applicationProcessText"));
+            }
+            return studentId;
+        }finally {
+            cursor.close();
+        }
+    }
     public String getUserDescreption(String studentId,int jobid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = null;
@@ -165,6 +180,15 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean checkAdminEmail(String email) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         Cursor cursor = MyDatabase.rawQuery("Select * from admin where email = ?", new String[]{email});
+        if (cursor.getCount() > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public Boolean checkIfRegisteredAlready(String studentid,int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        Cursor cursor = MyDatabase.rawQuery("Select * from jobsAcceptence where studentid = ? and jobid =?", new String[]{studentid, String.valueOf(jobid)});
         if (cursor.getCount() > 0) {
             return true;
         } else {
@@ -237,6 +261,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         }
     }
 
+
     public Boolean updatePasswordAdmin(String email,String password) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -259,10 +284,21 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return false;
         }
     }
+    public Boolean updateAccpetedSeen(String studentid,int jobid) {
+        SQLiteDatabase MyDatabase = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("accepted", 1);
+        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
+        if (result > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
     public Boolean updateAcceptenceAccepted(String studentid,int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", "SIKERES");
+        contentValues.put("accepted", 2);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -273,7 +309,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAcceptenceDeclined(String studentid,int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", "SIKERTELEN");
+        contentValues.put("accepted", 3);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -284,8 +320,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAcceptencedeclinedv(int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", "Már valaki másé lett az állás");
-        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "accepted=? and jobid=?", new String[]{"Még nem kaptál viszajelzést", String.valueOf(jobid)});
+        contentValues.put("accepted", 4);
+        long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "accepted=? and jobid=?", new String[]{String.valueOf(4), String.valueOf(jobid)});
         if (result > 0) {
             return true;
         } else {

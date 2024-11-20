@@ -36,6 +36,7 @@ public class ApplicantsAcceptOrDeclineActivity extends AppCompatActivity {
         user_description.setText(userDescription);
         accept = findViewById(R.id.accept_button);
         decline = findViewById(R.id.declinebutton_button);
+        Boolean seen = databaseHelper.updateAccpetedSeen(StudentId,jobid);
 
         accept.setOnClickListener(new View.OnClickListener() {
             @Override

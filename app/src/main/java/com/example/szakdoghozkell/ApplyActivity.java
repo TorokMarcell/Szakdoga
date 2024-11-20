@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.szakdoghozkell.databinding.ActivityAddjobsBinding;
 import com.example.szakdoghozkell.databinding.ActivityApplytoajobBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class ApplyActivity extends AppCompatActivity {
 
@@ -37,12 +38,18 @@ public class ApplyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String description = binding.applyDescription.getText().toString();
-                if(allFieldNotEmpty(description)){
-                    if(insertToDb(studentid,jobid,description)){
-                        Intent intent = new Intent(getApplicationContext(), UserActivity.class);
-                        intent.putExtra("email",Email);
-                        startActivity(intent);
+                if(allFieldNotEmpty(description)) {
+                    if (CheckIfRegistered(studentid, jobid)) {
+                        if (insertToDb(studentid, jobid, description)) {
+                            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
+                            intent.putExtra("email", Email);
+                            startActivity(intent);
+                        }
                     }
+                }else{
+                    Intent intent = new Intent(getApplicationContext(), ListJobsForUserActivity.class);
+                    intent.putExtra("email",Email);
+                    startActivity(intent);
                 }
             }
         });
@@ -59,14 +66,23 @@ public class ApplyActivity extends AppCompatActivity {
         }
     }
     public boolean insertToDb(String studentid,int jobid,String description){
-        Boolean insert = databaseHelper.insertDataTojobsAcceptence(studentid,jobid,description);
-        if (insert) {
-            Toast.makeText(ApplyActivity.this, "Sikeresen Jelentkeztél", Toast.LENGTH_SHORT).show();
-            return true;
-        }
-        else{
-            Toast.makeText(ApplyActivity.this, "Valami hiba történt kérlek próbáld meg újra", Toast.LENGTH_SHORT).show();
+            Boolean insert = databaseHelper.insertDataTojobsAcceptence(studentid, jobid, description);
+            if (insert) {
+                Toast.makeText(ApplyActivity.this, "Sikeresen Jelentkeztél", Toast.LENGTH_SHORT).show();
+                return true;
+            } else {
+                Toast.makeText(ApplyActivity.this, "Valami hiba történt kérlek próbáld meg újra", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+    }
+    public boolean CheckIfRegistered(String studentid,int jobid){
+        Boolean checkifalreadyRegistered = databaseHelper.checkIfRegisteredAlready(studentid,jobid);
+        if(checkifalreadyRegistered){
+            Snackbar.make(findViewById(android.R.id.content), "Erre a Munkára már jelentkeztél!", Snackbar.LENGTH_LONG).show();
             return false;
+        }
+        else {
+            return true;
         }
     }
 }

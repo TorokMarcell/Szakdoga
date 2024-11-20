@@ -53,6 +53,15 @@ public class UserActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        editPasswordButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String email = Email.getText().toString();
+                Intent intent = new Intent(UserActivity.this,EditPasswordForUserActivity.class);
+                intent.putExtra("email",email);
+                startActivity(intent);
+            }
+        });
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

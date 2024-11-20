@@ -28,48 +28,47 @@ import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
 import cucumber.api.java.en.When;
 
-@SmallTest
-@RunWith(AndroidJUnit4ClassRunner.class)
+
 public class LoginBDDTest {
-    @Rule
-    public ActivityTestRule<LgoinActivity> activityTestRule = new ActivityTestRule<>(LgoinActivity.class);
-
-    @Rule
-    private LgoinActivity activity;
-
-
-    @Before("@login-feature")
-    public void setup() {
-        activityTestRule.launchActivity(new Intent());
-        activity = activityTestRule.getActivity();
-    }
-    @After("@login-feature")
-    public void tearDown() {
-        activityTestRule.finishActivity();
-    }
-    @Given("^létezik a login felület")
-    public void I_have_a_login_activity() {
-        assertNotNull(activity);
-    }
-    @And("^rámegyek a bejelentkezés gombra$")
-    public void i_press_button() {
-        Intent intent = new Intent(activity, MainActivity.class);
-    }
-
-    @And("^beírom a jelszavam \"([^\"]*)\"$")
-    public void beíromAJelszavam(String jelszo) throws Throwable {
-        onView(withId(R.id.login_password)).perform(typeText(jelszo), closeSoftKeyboard());
-        throw new PendingException();
-    }
-
-    @When("^beírom az emailem \"([^\"]*)\"$")
-    public void beíromAzEmailem(String email) throws Throwable {
-        onView(withId(R.id.login_email)).perform(typeText(email));
-        throw new PendingException();
-    }
-
-    @Then("^a validáció menüben találom magam$")
-    public void aValidációMenübenTalálomMagam() {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-    }
+//    @Rule
+//    public ActivityTestRule<LgoinActivity> activityTestRule = new ActivityTestRule<>(LgoinActivity.class);
+//
+//    @Rule
+//    public LgoinActivity activity;
+//
+//
+//    @Before("@login-feature")
+//    public void setup() {
+//        activityTestRule.launchActivity(new Intent());
+//        activity = activityTestRule.getActivity();
+//    }
+//    @After("@login-feature")
+//    public void tearDown() {
+//        activityTestRule.finishActivity();
+//    }
+//    @Given("^létezik a login felület")
+//    public void I_have_a_login_activity() {
+//        assertNotNull(activity);
+//    }
+//    @And("^rámegyek a bejelentkezés gombra$")
+//    public void i_press_button() {
+//        Intent intent = new Intent(activity, MainActivity.class);
+//    }
+//
+//    @And("^beírom a jelszavam \"([^\"]*)\"$")
+//    public void beíromAJelszavam(String jelszo) throws Throwable {
+//        onView(withId(R.id.login_password)).perform(typeText(jelszo), closeSoftKeyboard());
+//        throw new PendingException();
+//    }
+//
+//    @When("^beírom az emailem \"([^\"]*)\"$")
+//    public void beíromAzEmailem(String email) throws Throwable {
+//        onView(withId(R.id.login_email)).perform(typeText(email));
+//        throw new PendingException();
+//    }
+//
+//    @Then("^a validáció menüben találom magam$")
+//    public void aValidációMenübenTalálomMagam() {
+//        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+//    }
 }

@@ -10,23 +10,24 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.szakdoghozkell.databinding.ActivityEditnameBinding;
+import com.example.szakdoghozkell.databinding.ActivityEditpasswordforuserBinding;
 
 
-public class EditPasswordActivity extends AppCompatActivity {
+public class EditPasswordForUserActivity extends AppCompatActivity {
 
-    ActivityEditnameBinding binding;
+    ActivityEditpasswordforuserBinding binding;
     DatabaseHelper databaseHelper;
     TextView email;
     Button editbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityEditnameBinding.inflate(getLayoutInflater());
+        binding = ActivityEditpasswordforuserBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         databaseHelper = new DatabaseHelper(this);
 
-        email = findViewById(R.id.email_text);
-        editbutton = findViewById(R.id.editbutton);
+        email = findViewById(R.id.email_text_user);
+        editbutton = findViewById(R.id.editbutton_user);
 
         Intent intent = getIntent();
         email.setText(intent.getStringExtra("email"));
@@ -34,20 +35,20 @@ public class EditPasswordActivity extends AppCompatActivity {
         editbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (databaseHelper.checkIfAdmin(stremail)) {
-                    String password = binding.editPassword.getText().toString();
-                    String confirmPassword = binding.editRepassword.getText().toString();
+                if (databaseHelper.checkEmail(stremail)) {
+                    String password = binding.editPasswordUser.getText().toString();
+                    String confirmPassword = binding.editRepasswordUser.getText().toString();
                     if (password.equals(confirmPassword)) {
-                        Boolean checkpassword = databaseHelper.updatePasswordAdmin(stremail, password);
+                        Boolean checkpassword = databaseHelper.updatePasswordUser(stremail, password);
                         if (checkpassword) {
-                            Toast.makeText(EditPasswordActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
+                            Toast.makeText(EditPasswordForUserActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(getApplicationContext(), UserActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(EditPasswordActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(EditPasswordForUserActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(EditPasswordActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPasswordForUserActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

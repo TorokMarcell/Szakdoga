@@ -34,8 +34,9 @@ public class ListJobsForApplicantsActivity  extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Cursor cursor = (Cursor) simpleCursorAdapter.getItem(position);
-                String accepted = cursor.getString(4);
-                Toast.makeText(ListJobsForApplicantsActivity.this,accepted,Toast.LENGTH_LONG).show();
+                int accepted = cursor.getInt(4);
+                String stateofyourapplication = databaseHelper.getAcceptence(accepted);
+                Toast.makeText(ListJobsForApplicantsActivity.this,stateofyourapplication,Toast.LENGTH_LONG).show();
             }
         });
 

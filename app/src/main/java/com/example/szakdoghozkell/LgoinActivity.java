@@ -8,6 +8,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.szakdoghozkell.databinding.ActivityLgoinBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 public class LgoinActivity extends AppCompatActivity {
     ActivityLgoinBinding binding;
@@ -25,7 +26,7 @@ public class LgoinActivity extends AppCompatActivity {
                 String email = binding.loginEmail.getText().toString();
                 String password = binding.loginPassword.getText().toString();
                 if(email.equals("")||password.equals(""))
-                    Toast.makeText(LgoinActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(android.R.id.content), "Kérlek töltsd ki az összes mezőt", Snackbar.LENGTH_LONG).show();
                 else{
                     Boolean checkCredentials = databaseHelper.checkPassword(email, password);
                     Boolean checkAdminCredentials = databaseHelper.checkAdminPassword(email, password);
@@ -37,20 +38,20 @@ public class LgoinActivity extends AppCompatActivity {
                         }
                         else {
                             if(databaseHelper.checkIfAdmin(email)) {
-                                Toast.makeText(LgoinActivity.this, "Sikeres Bejelentkezés!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(findViewById(android.R.id.content), "Sikeres Bejelentkezés!", Snackbar.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                                 intent.putExtra("email",email);
                                 startActivity(intent);
                             }
                             else {
-                                Toast.makeText(LgoinActivity.this, "Sikeres Bejelentkezés!", Toast.LENGTH_SHORT).show();
+                                Snackbar.make(findViewById(android.R.id.content), "Sikeres Bejelentkezés!", Snackbar.LENGTH_LONG).show();
                                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                                 intent.putExtra("email",email);
                                 startActivity(intent);
                             }
                         }
                     }else{
-                        Toast.makeText(LgoinActivity.this, "Rosz adatokat adtál meg", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content), "Rossz adatokat adtál meg", Snackbar.LENGTH_LONG).show();
                     }
                 }
 

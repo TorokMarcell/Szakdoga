@@ -20,10 +20,6 @@ public class AddJobsActivity extends AppCompatActivity {
     TextView email;
 
     protected void onCreate(Bundle savedInstanceState) {
-        int resId = 0x7f080077; // Problémás ID
-        String resName = getResources().getResourceName(resId);
-        String resType = getResources().getResourceTypeName(resId);
-        Log.d("ResourceCheck", "Resource Name: " + resName + ", Type: " + resType);
         super.onCreate(savedInstanceState);
         binding = ActivityAddjobsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());

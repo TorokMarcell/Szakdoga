@@ -66,6 +66,17 @@
                 android:drawablePadding="8dp"/>
 
             <EditText
+                android:id="@+id/signup_birthdate"
+                android:layout_width="355dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="30dp"
+                android:background="@drawable/orange_border"
+                android:drawableLeft="@drawable/baseline_people_24"
+                android:drawablePadding="8dp"
+                android:hint="Születési dátum"
+                android:padding="8dp" />
+
+            <EditText
                 android:layout_width="350dp"
                 android:layout_height="60dp"
                 android:id="@+id/signup_password"
