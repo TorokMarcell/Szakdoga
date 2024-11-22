@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
@@ -25,7 +25,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class AppliedJobsTest {
     @Rule
-    public ActivityScenarioRule<LgoinActivity> activityTestRule = new ActivityScenarioRule<>(LgoinActivity.class);
+    public ActivityScenarioRule<LoginActivity> activityTestRule = new ActivityScenarioRule<>(LoginActivity.class);
 
     @Test
     public void AppliedJobsTestOk3() {

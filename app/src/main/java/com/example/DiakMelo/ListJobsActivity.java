@@ -1,18 +1,16 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityListjobssBinding;
+import com.example.DiakMelo.databinding.ActivityListjobssBinding;
 
 public class ListJobsActivity  extends AppCompatActivity {
 

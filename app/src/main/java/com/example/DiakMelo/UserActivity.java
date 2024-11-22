@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityUserBinding;
+import com.example.DiakMelo.databinding.ActivityUserBinding;
 
 
 public class UserActivity extends AppCompatActivity {
@@ -65,7 +65,7 @@ public class UserActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UserActivity.this, LgoinActivity.class);
+                Intent intent = new Intent(UserActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 
 import static androidx.test.espresso.Espresso.onView;

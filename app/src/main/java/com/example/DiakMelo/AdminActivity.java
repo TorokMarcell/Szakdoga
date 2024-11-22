@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityAdminBinding;
+import com.example.DiakMelo.databinding.ActivityAdminBinding;
 
 
 public class AdminActivity extends AppCompatActivity {
@@ -57,7 +57,7 @@ public class AdminActivity extends AppCompatActivity {
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AdminActivity.this, LgoinActivity.class);
+                Intent intent = new Intent(AdminActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });

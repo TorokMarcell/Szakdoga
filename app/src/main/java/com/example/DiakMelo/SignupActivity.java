@@ -1,13 +1,12 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivitySignupBinding;
+import com.example.DiakMelo.databinding.ActivitySignupBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SignupActivity extends AppCompatActivity {
@@ -33,14 +32,14 @@ protected void onCreate(Bundle savedInstanceState) {
             String date = binding.signupBirthdate.getText().toString();
             Integer validated = 0;
             if (allFieldNotEmpty(email, password, studentid, confirmPassword, firstname, lastname, date)) {
-                if (RegexChecks(email, studentid, firstname, lastname, date)) {
+                if (RegexChecks(email, studentid, date)) {
                     if (checking) {
                         if (checkPassword(password, confirmPassword)) {
                             if (checkifAlreadyinUse(email, studentid, firstname, lastname)) {
                                 Boolean insert = databaseHelper.insertDataToUsers(email, password, studentid, validated, firstname, lastname);
                                 if (insert) {
                                     Snackbar.make(findViewById(android.R.id.content), "Sikeres Regisztráció", Snackbar.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getApplicationContext(), LgoinActivity.class);
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
                                 } else {
                                     Snackbar.make(findViewById(android.R.id.content), "Sikertelen Regisztráció", Snackbar.LENGTH_SHORT).show();
@@ -56,7 +55,7 @@ protected void onCreate(Bundle savedInstanceState) {
     binding.loginRedirectText.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(SignupActivity.this, LgoinActivity.class);
+            Intent intent = new Intent(SignupActivity.this, LoginActivity.class);
             startActivity(intent);
         }
     });
@@ -86,7 +85,7 @@ protected void onCreate(Bundle savedInstanceState) {
             return false;
         }
     }
-    public boolean RegexChecks(String email,String studentid,String firstname,String lastname,String date) {
+    public boolean RegexChecks(String email,String studentid,String date) {
         if (!email.matches("^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$")) {
             Snackbar.make(findViewById(android.R.id.content), "Nem helyes formátumban adtad meg az emailed", Snackbar.LENGTH_SHORT).show();
             checking = false;
@@ -99,14 +98,6 @@ protected void onCreate(Bundle savedInstanceState) {
             Snackbar.make(findViewById(android.R.id.content), "10 karakterből kell áljon az azonosítód", Snackbar.LENGTH_SHORT).show();
             checking = false;
         }
-            if (!(firstname.matches("^[a-zA-Z]*$"))) {
-                Snackbar.make(findViewById(android.R.id.content), "Kérlek ide csak betűt írj", Snackbar.LENGTH_SHORT).show();
-                checking = false;
-            }
-            if (!(lastname.matches("^[a-z-A-Z]*$"))) {
-                Snackbar.make(findViewById(android.R.id.content), "Kérlek ide csak betűt írj", Snackbar.LENGTH_SHORT).show();
-                checking = false;
-            }
             if (!(date.matches("^\\d{4}\\-(0?[1-9]|1[012])\\-(0?[1-9]|[12][0-9]|3[01])$"))) {
                 Snackbar.make(findViewById(android.R.id.content), "Kérlek így add meg a születési dátumod: 2000-01-01", Snackbar.LENGTH_SHORT).show();
                 checking = false;

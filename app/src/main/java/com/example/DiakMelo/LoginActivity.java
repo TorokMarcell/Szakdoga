@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,10 +7,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityLgoinBinding;
+import com.example.DiakMelo.databinding.ActivityLgoinBinding;
 import com.google.android.material.snackbar.Snackbar;
 
-public class LgoinActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     ActivityLgoinBinding binding;
     DatabaseHelper databaseHelper;
     @Override
@@ -32,7 +32,7 @@ public class LgoinActivity extends AppCompatActivity {
                     Boolean checkAdminCredentials = databaseHelper.checkAdminPassword(email, password);
                     if(checkCredentials||checkAdminCredentials){
                         if(databaseHelper.checkValidated(email)){
-                            Intent intent = new Intent(LgoinActivity.this, UserActivity.class);
+                            Intent intent = new Intent(LoginActivity.this, UserActivity.class);
                             intent.putExtra("email",email);
                             startActivity(intent);
                         }
@@ -60,14 +60,14 @@ public class LgoinActivity extends AppCompatActivity {
        binding.signupRedirectText.setOnClickListener(new View.OnClickListener() {;
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(LgoinActivity.this, SignupActivity.class);
+                Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                 startActivity(intent);
             }
         });
     }
     public boolean allFieldNotEmpty(String email,String password){
         if(email.equals("")||password.equals("")) {
-            Toast.makeText(LgoinActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

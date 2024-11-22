@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,9 +23,7 @@ public class SignupActivtyTest {
     String mockStudentID = "9876501234";
     String mockStudentIDWrong = "WRONG";
     String mockFirstname = "mockFirstname";
-    String mockFirstnameWrong = "12";
     String mockLastName = "mockLastName";
-    String mockLastNameWrong = "123";
     String exptectedString = "FAHEJ";
     String exptectedStringComplex = "TOBBTAGU";
     String testString = "FAHÉJ";
@@ -48,42 +46,28 @@ public class SignupActivtyTest {
     @Test
     public void RegexChecksTestWithGoodData() {
         SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockFirstname,mockLastName,mockBirthDate);
+        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockBirthDate);
         ShadowLooper.runUiThreadTasks();
         assertTrue(result);
     }
     @Test
     public void RegexChecksTestWitWrongEmail() {
         SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmailWrong,mockStudentID,mockFirstname,mockLastName,mockBirthDate);
+        boolean result = activity.RegexChecks(mockEmailWrong,mockStudentID,mockBirthDate);
         ShadowLooper.runUiThreadTasks();
         assertFalse(result);
     }
     @Test
     public void RegexChecksTestWitWrongStudentID() {
         SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmail,mockStudentIDWrong,mockFirstname,mockLastName,mockBirthDate);
-        ShadowLooper.runUiThreadTasks();
-        assertFalse(result);
-    }
-    @Test
-    public void RegexChecksTestWitWrongFirstName() {
-        SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockFirstnameWrong,mockLastName,mockBirthDate);
-        ShadowLooper.runUiThreadTasks();
-        assertFalse(result);
-    }
-    @Test
-    public void RegexChecksTestWitWronglastName() {
-        SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockFirstname,mockLastNameWrong,mockBirthDate);
+        boolean result = activity.RegexChecks(mockEmail,mockStudentIDWrong,mockBirthDate);
         ShadowLooper.runUiThreadTasks();
         assertFalse(result);
     }
     @Test
     public void RegexChecksTestWitWrongDate() {
         SignupActivity activity = Robolectric.buildActivity(SignupActivity.class).create().get();
-        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockFirstname,mockLastName,mockBirthDateWrong);
+        boolean result = activity.RegexChecks(mockEmail,mockStudentID,mockBirthDateWrong);
         ShadowLooper.runUiThreadTasks();
         assertFalse(result);
     }

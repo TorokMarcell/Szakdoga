@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.Manifest;
 import android.content.Intent;
@@ -25,8 +25,8 @@ import android.graphics.*;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.szakdoghozkell.ml.ModelUnquant;
-import com.google.android.gms.tasks.OnFailureListener;
+
+import com.example.DiakMelo.ml.ModelUnquant;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.mlkit.vision.common.InputImage;
@@ -64,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
     TextRecognizer textRecognizer;
     DatabaseHelper databaseHelper;
     String resultid;
-    String resultFirstname;
-    String resultLastname;
     String Studentid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,22 +102,16 @@ public class MainActivity extends AppCompatActivity {
         editPasswordButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, EditActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditPasswordForUserActivity.class);
                 startActivity(intent);
             }
         });
-//        editNameButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.this, EditNameActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+
 
         exitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, LgoinActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -214,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                 if (result.equals("0 Diák")){
                     Toast.makeText(MainActivity.this, "Sikeres volt a Verifikáció.", Toast.LENGTH_SHORT).show();
                     databaseHelper.updatevalidated(resultid);
-                    Intent intent = new Intent(MainActivity.this, LgoinActivity.class);
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                 }
                 else {

@@ -1,8 +1,7 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -35,11 +34,22 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         MyDatabase.execSQL("create Table admin(id INTEGER primary key,email TEXT, password TEXT)");
         MyDatabase.execSQL("create Table jobsAcceptence(id INTEGER primary key,studentid TEXT, jobid INTEGER,userDescreption TEXT,accepted INTEGER, FOREIGN KEY(studentid) references users(studentid), FOREIGN KEY(jobid) references jobs(id))");
         MyDatabase.execSQL("create Table applicationProcess(id INTEGER primary key,applicationProcessText TEXT, FOREIGN KEY(id) references jobsAcceptence(accepted))");
+        MyDatabase.execSQL("Insert Into admin values(1,'admin@admin.com','adminadmin')");
+        MyDatabase.execSQL("Insert into applicationProcess values(1,'Még nem nézték meg a jelentkezésed')");
+        MyDatabase.execSQL("Insert into applicationProcess values(2,'Már látták  a jelentkezésed')");
+        MyDatabase.execSQL("Insert into applicationProcess values(3,'Elfogadták a jelentkezésed')");
+        MyDatabase.execSQL("Insert into applicationProcess values(4,'Elutasították a jelentkezésed')");
+        MyDatabase.execSQL("Insert into applicationProcess values(5,'Valaki másé lett a munka')");
+
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase MyDB, int i, int i1) {
         MyDB.execSQL("drop Table if exists users");
+        MyDB.execSQL("drop Table if exists jobs");
+        MyDB.execSQL("drop Table if exists admin");
+        MyDB.execSQL("drop Table if exists jobsAcceptence");
+        MyDB.execSQL("drop Table if exists applicationProcess");
     }
 
     public Boolean insertDataToUsers(String email, String password, String studentid, Integer validated, String firstName, String lastName) {
@@ -51,7 +61,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("validated", validated);
         contentValues.put("firstname", firstName);
         contentValues.put("lastname", lastName);
-
         long result = MyDatabase.insert("users", null, contentValues);
         if (result == -1) {
             return false;
@@ -90,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         contentValues.put("studentid", studentid);
         contentValues.put("jobid", jobid);
         contentValues.put("userDescreption", description);
-        contentValues.put("accepted",0);
+        contentValues.put("accepted",1);
         long result = MyDatabase.insert(ACCAPTENCE_TABLE, null, contentValues);
         if (result == -1) {
             return false;
@@ -287,7 +296,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAccpetedSeen(String studentid,int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", 1);
+        contentValues.put("accepted", 2);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -298,7 +307,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAcceptenceAccepted(String studentid,int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", 2);
+        contentValues.put("accepted", 3);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -309,7 +318,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAcceptenceDeclined(String studentid,int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", 3);
+        contentValues.put("accepted", 4);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "studentid=? and jobid=?", new String[]{studentid, String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -320,7 +329,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public Boolean updateAcceptencedeclinedv(int jobid) {
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("accepted", 4);
+        contentValues.put("accepted", 5);
         long result = MyDatabase.update(ACCAPTENCE_TABLE, contentValues, "accepted=? and jobid=?", new String[]{String.valueOf(4), String.valueOf(jobid)});
         if (result > 0) {
             return true;
@@ -353,7 +362,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public SimpleCursorAdapter getDatasforUser(){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs",new String[]{});
+        Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid,avalaible from jobs where avalaible = 1 ",new String[]{});
         String[] columnames = new String[]{
                 "title","description","salary","location","adminid"
         };

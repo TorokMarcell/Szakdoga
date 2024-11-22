@@ -1,15 +1,14 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.szakdoghozkell.databinding.ActivityEditnameBinding;
+import com.example.DiakMelo.databinding.ActivityEditnameBinding;
 import com.google.android.material.snackbar.Snackbar;
 
 

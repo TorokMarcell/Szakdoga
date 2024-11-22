@@ -25,7 +25,7 @@
 <!--            android:name=".EditPasswordActivity"-->
 <!--            android:exported="true" />-->
         <activity
-            android:name=".LgoinActivity"
+            android:name=".LoginActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -70,13 +70,6 @@
         </activity>
         <activity
             android:name=".EditPasswordActivity"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".AdminEditActivity"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"

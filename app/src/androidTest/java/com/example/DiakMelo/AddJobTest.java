@@ -1,6 +1,5 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
-import static androidx.test.espresso.Espresso.onData;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;

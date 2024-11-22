@@ -1,4 +1,4 @@
-package com.example.szakdoghozkell;
+package com.example.DiakMelo;
 
 import static android.app.PendingIntent.getActivity;
 import static androidx.test.espresso.Espresso.onView;
@@ -27,7 +27,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class LoginTest extends MonitoringInstrumentation {
     @Rule
-    public ActivityTestRule<LgoinActivity> activityTestRule = new ActivityTestRule<>(LgoinActivity.class);
+    public ActivityTestRule<LoginActivity> activityTestRule = new ActivityTestRule<>(LoginActivity.class);
 
 
     @Test
