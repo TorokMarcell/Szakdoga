@@ -28,26 +28,24 @@ public class ManageJobsTest{
 
     @Test
     public void RegisterUiTest() {
-        onView(withId(R.id.login_email)).perform(typeText("asd@asd.com"), closeSoftKeyboard());
-        onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("admin@admin.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_password)).perform(typeText("adminadmin"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.joblistButton)).perform(scrollTo()).perform(click());
+        onView(withId(R.id.joblistButton)).perform(click());
         onData(anything()).atPosition(0).perform(click());
         SystemClock.sleep(500);
         onData(anything()).atPosition(0).perform(click());
-        onView(withId(R.id.joblistButton)).perform(click());
         onView(withId(R.id.accept_button)).perform(scrollTo()).perform(click());
     }
     @Test
     public void RegisterUiTest2() {
-        onView(withId(R.id.login_email)).perform(typeText("asd@asd.com"), closeSoftKeyboard());
-        onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("admin@admin.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_password)).perform(typeText("admin"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.joblistButton)).perform(scrollTo()).perform(click());
         onData(anything()).atPosition(0).perform(click());
         SystemClock.sleep(500);
         onData(anything()).atPosition(0).perform(click());
-        onView(withId(R.id.joblistButton)).perform(click());
         onView(withId(R.id.declinebutton_button)).perform(scrollTo()).perform(click());
     }
 }

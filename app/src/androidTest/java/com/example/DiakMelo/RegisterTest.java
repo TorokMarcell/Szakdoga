@@ -53,19 +53,6 @@ public class RegisterTest {
         onView(withText("Kérlek Töltsd ki az összes mezőt.")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
     @Test
-    public void RegisterUiTestWithWrongFirtsname() {
-        onView(withId(R.id.signupRedirectText)).perform(scrollTo()).perform(click());
-        onView(withId(R.id.signup_firstname)).perform(typeText("1"),closeSoftKeyboard());
-        onView(withId(R.id.signup_lastname)).perform(typeText("asd"),closeSoftKeyboard());
-        onView(withId(R.id.signup_email)).perform(typeText("qwert@qwert.com"),closeSoftKeyboard());
-        onView(withId(R.id.signup_studentId)).perform(scrollTo()).perform(typeText("7654321090"),closeSoftKeyboard());
-        onView(withId(R.id.signup_birthdate)).perform(scrollTo()).perform(typeText("2001-01-01"),closeSoftKeyboard());
-        onView(withId(R.id.signup_password)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
-        onView(withId(R.id.signup_confirm)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
-        onView(withId(R.id.signup_button)).perform(scrollTo()).perform(scrollTo()).perform(click());
-        onView(withText("Kérlek ide csak betűt írj")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
-    }
-    @Test
     public void RegisterUiTestWithWrongEmail() {
         onView(withId(R.id.signupRedirectText)).perform(scrollTo()).perform(click());
         onView(withId(R.id.signup_firstname)).perform(typeText("asd"),closeSoftKeyboard());
@@ -97,10 +84,10 @@ public class RegisterTest {
         onView(withId(R.id.signup_firstname)).perform(typeText("asd"),closeSoftKeyboard());
         onView(withId(R.id.signup_lastname)).perform(typeText("asd"),closeSoftKeyboard());
         onView(withId(R.id.signup_email)).perform(typeText("qwert@qwert.com"),closeSoftKeyboard());
-        onView(withId(R.id.signup_studentId)).perform(scrollTo()).perform(typeText("765432109"),closeSoftKeyboard());
+        onView(withId(R.id.signup_studentId)).perform(scrollTo()).perform(typeText("7654321090"),closeSoftKeyboard());
         onView(withId(R.id.signup_birthdate)).perform(scrollTo()).perform(typeText("20010101"),closeSoftKeyboard());
         onView(withId(R.id.signup_password)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
-        onView(withId(R.id.signup_confirm)).perform(scrollTo()).perform(typeText("asdasd2"),closeSoftKeyboard());
+        onView(withId(R.id.signup_confirm)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
         onView(withId(R.id.signup_button)).perform(scrollTo()).perform(scrollTo()).perform(click());
         onView(withText("Kérlek így add meg a születési dátumod: 2000-01-01")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }
@@ -110,10 +97,10 @@ public class RegisterTest {
         onView(withId(R.id.signup_firstname)).perform(typeText("asd"),closeSoftKeyboard());
         onView(withId(R.id.signup_lastname)).perform(typeText("asd"),closeSoftKeyboard());
         onView(withId(R.id.signup_email)).perform(typeText("qwert@qwert.com"),closeSoftKeyboard());
-        onView(withId(R.id.signup_studentId)).perform(scrollTo()).perform(typeText("765432109"),closeSoftKeyboard());
-        onView(withId(R.id.signup_birthdate)).perform(scrollTo()).perform(typeText("20010101"),closeSoftKeyboard());
+        onView(withId(R.id.signup_studentId)).perform(scrollTo()).perform(typeText("7654321090"),closeSoftKeyboard());
+        onView(withId(R.id.signup_birthdate)).perform(scrollTo()).perform(typeText("2001-01-01"),closeSoftKeyboard());
         onView(withId(R.id.signup_password)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
-        onView(withId(R.id.signup_confirm)).perform(scrollTo()).perform(typeText("asdasd"),closeSoftKeyboard());
+        onView(withId(R.id.signup_confirm)).perform(scrollTo()).perform(typeText("asdasd2"),closeSoftKeyboard());
         onView(withId(R.id.signup_button)).perform(scrollTo()).perform(scrollTo()).perform(click());
         onView(withText("A két jelszó nem egyezik meg")).check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
     }

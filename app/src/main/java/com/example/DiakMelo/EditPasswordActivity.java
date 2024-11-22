@@ -47,7 +47,7 @@ public class EditPasswordActivity extends AppCompatActivity {
                             Snackbar.make(findViewById(android.R.id.content), "Valami hiba történt kérlek próbáld újra", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Snackbar.make(findViewById(android.R.id.content), "Sikeres Bejelentkezés!", Snackbar.LENGTH_LONG).show();
+                        Snackbar.make(findViewById(android.R.id.content), "Nem egyezik a két Jelszó", Snackbar.LENGTH_LONG).show();
                     }
                 }
             }

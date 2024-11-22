@@ -2,6 +2,21 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
+      <entry key="AddJobTest">
+        <State />
+      </entry>
+      <entry key="EditPasswordTest1()">
+        <State />
+      </entry>
+      <entry key="EditPasswordTest2()">
+        <State />
+      </entry>
+      <entry key="RegisterUiTest()">
+        <State />
+      </entry>
+      <entry key="RegisterUiTestWithWrongBirthDate()">
+        <State />
+      </entry>
       <entry key="app">
         <State />
       </entry>

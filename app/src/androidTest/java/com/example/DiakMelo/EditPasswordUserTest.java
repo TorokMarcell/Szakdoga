@@ -12,18 +12,22 @@ import static androidx.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.CoreMatchers.anything;
 
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.SmallTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 @SmallTest
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class EditPasswordUserTest {
+    @Rule
+    public ActivityScenarioRule<LoginActivity> activityTestRule = new ActivityScenarioRule<>(LoginActivity.class);
     @Test
     public void EditPasswordTest2() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.editPasswordbutton2)).perform(click());
@@ -33,7 +37,7 @@ public class EditPasswordUserTest {
     }
     @Test
     public void EditPasswordTest1() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.editPasswordbutton2)).perform(click());

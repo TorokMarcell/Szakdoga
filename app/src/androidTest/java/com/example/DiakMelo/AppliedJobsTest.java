@@ -29,7 +29,7 @@ public class AppliedJobsTest {
 
     @Test
     public void AppliedJobsTestOk3() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.joblistButtonForUsers)).perform(click());

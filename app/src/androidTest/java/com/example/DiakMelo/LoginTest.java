@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertNotNull;
 
 import androidx.test.espresso.matcher.ViewMatchers;
+import androidx.test.ext.junit.rules.ActivityScenarioRule;
 import androidx.test.filters.SmallTest;
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
 import androidx.test.rule.ActivityTestRule;
@@ -27,7 +28,7 @@ import org.junit.runner.RunWith;
 @RunWith(AndroidJUnit4ClassRunner.class)
 public class LoginTest extends MonitoringInstrumentation {
     @Rule
-    public ActivityTestRule<LoginActivity> activityTestRule = new ActivityTestRule<>(LoginActivity.class);
+    public ActivityScenarioRule<LoginActivity> activityTestRule = new ActivityScenarioRule<>(LoginActivity.class);
 
 
     @Test
@@ -36,7 +37,7 @@ public class LoginTest extends MonitoringInstrumentation {
     }
     @Test
     public void LoginUiTest() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"),closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"),closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"),closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
     }

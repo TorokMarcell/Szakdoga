@@ -30,7 +30,7 @@ public class SignupForJobctivityTest {
 
     @Test
     public void RegisterUiTestWithNoDescription() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.jobbforUserButton)).perform(click());
@@ -40,7 +40,7 @@ public class SignupForJobctivityTest {
     }
     @Test
     public void RegisterUiTest() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.jobbforUserButton)).perform(click());
@@ -51,7 +51,7 @@ public class SignupForJobctivityTest {
     }
     @Test
     public void RegisterUiTestAlreadyRegistered() {
-        onView(withId(R.id.login_email)).perform(typeText("xd@xd.com"), closeSoftKeyboard());
+        onView(withId(R.id.login_email)).perform(typeText("qwert@qwert.com"), closeSoftKeyboard());
         onView(withId(R.id.login_password)).perform(typeText("asdasd"), closeSoftKeyboard());
         onView(withId(R.id.login_button)).perform(scrollTo()).perform(click());
         onView(withId(R.id.jobbforUserButton)).perform(click());

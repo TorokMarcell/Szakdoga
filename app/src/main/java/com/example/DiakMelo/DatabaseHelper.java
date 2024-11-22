@@ -350,7 +350,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
     public SimpleCursorAdapter getDatas(int adminid){
         SQLiteDatabase MyDatabase = this.getWritableDatabase();
-        Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid from jobs where adminid = ?", new String[]{String.valueOf(adminid)});
+        Cursor cursor = MyDatabase.rawQuery("Select jobid as _id,title,description,salary,location,adminid,avalaible from jobs where adminid = ? and avalaible = 1", new String[]{String.valueOf(adminid)});
         String[] columnames = new String[]{
                 "title","description","salary","location","adminid"
         };
