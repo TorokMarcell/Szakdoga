@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.snackbar.Snackbar;
+
 public class ListJobsForApplicantsActivity  extends AppCompatActivity {
     DatabaseHelper databaseHelper;
 
@@ -36,7 +38,7 @@ public class ListJobsForApplicantsActivity  extends AppCompatActivity {
                 Cursor cursor = (Cursor) simpleCursorAdapter.getItem(position);
                 int accepted = cursor.getInt(4);
                 String stateofyourapplication = databaseHelper.getAcceptence(accepted);
-                Toast.makeText(ListJobsForApplicantsActivity.this,stateofyourapplication,Toast.LENGTH_LONG).show();
+                Snackbar.make(findViewById(android.R.id.content), stateofyourapplication, Snackbar.LENGTH_LONG).show();
             }
         });
 

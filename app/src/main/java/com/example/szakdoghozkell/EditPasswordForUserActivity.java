@@ -48,7 +48,7 @@ public class EditPasswordForUserActivity extends AppCompatActivity {
                             Toast.makeText(EditPasswordForUserActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(EditPasswordForUserActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EditPasswordForUserActivity.this, "Nem egyezik a két Jelszó", Toast.LENGTH_SHORT).show();
                     }
                 }
             }

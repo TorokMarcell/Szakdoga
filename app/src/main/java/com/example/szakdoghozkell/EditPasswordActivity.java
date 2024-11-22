@@ -10,6 +10,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.szakdoghozkell.databinding.ActivityEditnameBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class EditPasswordActivity extends AppCompatActivity {
@@ -40,14 +41,14 @@ public class EditPasswordActivity extends AppCompatActivity {
                     if (password.equals(confirmPassword)) {
                         Boolean checkpassword = databaseHelper.updatePasswordAdmin(stremail, password);
                         if (checkpassword) {
-                            Toast.makeText(EditPasswordActivity.this, "Sikeres jelszóváltoztatás", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(android.R.id.content), "Sikeres jelszóváltoztatás", Snackbar.LENGTH_LONG).show();
                             Intent intent = new Intent(getApplicationContext(), AdminActivity.class);
                             startActivity(intent);
                         } else {
-                            Toast.makeText(EditPasswordActivity.this, "Rosz", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(findViewById(android.R.id.content), "Valami hiba történt kérlek próbáld újra", Snackbar.LENGTH_LONG).show();
                         }
                     } else {
-                        Toast.makeText(EditPasswordActivity.this, "Nem egyezik Jelszó", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(findViewById(android.R.id.content), "Sikeres Bejelentkezés!", Snackbar.LENGTH_LONG).show();
                     }
                 }
             }

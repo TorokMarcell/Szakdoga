@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.szakdoghozkell.databinding.ActivityAddjobsBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class AddJobsActivity extends AppCompatActivity {
@@ -50,7 +51,7 @@ public class AddJobsActivity extends AppCompatActivity {
     }
     public boolean allFieldNotEmpty(String title,String descreption, String tmpsalary, String location){
         if(title.equals("")||descreption.equals("")||tmpsalary.equals("")||location.equals("")){
-            Toast.makeText(AddJobsActivity.this, "Kérlek töltsd ki az összes mezőt", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "Kérlek töltsd ki az összes mezőt", Snackbar.LENGTH_LONG).show();
             return false;
         }
         else {
@@ -60,11 +61,11 @@ public class AddJobsActivity extends AppCompatActivity {
     public boolean insertToDb(String title,String descreption,int salary, String location,int adminid){
         Boolean insert = databaseHelper.insertDataToJobs(title,descreption,salary,location,adminid);
         if (insert) {
-            Toast.makeText(AddJobsActivity.this, "Sikereses Feladtad ezt a munkát", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "Sikereses Feladtad ezt a munkát", Snackbar.LENGTH_LONG).show();
             return true;
         }
         else{
-            Toast.makeText(AddJobsActivity.this, "Valami hiba történt kérlek probáld újra", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(android.R.id.content), "Valami hiba történt kérlek probáld újra", Snackbar.LENGTH_LONG).show();
             return false;
         }
     }
